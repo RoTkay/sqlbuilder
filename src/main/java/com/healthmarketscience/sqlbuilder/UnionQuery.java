@@ -26,13 +26,13 @@ package com.healthmarketscience.sqlbuilder;
  * @author James Ahlborn
  */
 public class UnionQuery extends SetOperationQuery<UnionQuery> {
-  
-  public UnionQuery(Type type) {
-    this(type, (SelectQuery[])null);
-  }
 
-  public UnionQuery(Type type, SelectQuery... queries) {
-    super(type, (Object[])queries);
-  }
+    public UnionQuery(Type type) {
+        this(type, (SelectQuery[]) null);
+    }
+
+    public UnionQuery(Type type, SelectQuery... queries) {
+        super(type, (Object[]) queries);
+    }
 
 }

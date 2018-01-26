@@ -26,32 +26,42 @@ import java.util.List;
  */
 public interface Column {
 
-  /** @return the parent database table of this column */
-  public Table getTable();
-  
-  /** @return the simple name of this column */
-  public String getColumnNameSQL();
+    /**
+     * @return the parent database table of this column
+     */
+    public Table getTable();
 
-  /** @return the type of this column */
-  public String getTypeNameSQL();
+    /**
+     * @return the simple name of this column
+     */
+    public String getColumnNameSQL();
 
-  /**
-   * @return the length of the type of this column, may be <code>null</code>
-   * @deprecated use {@link #getTypeQualifiers} instead
-   */
-   @Deprecated
-  public Integer getTypeLength();
+    /**
+     * @return the type of this column
+     */
+    public String getTypeNameSQL();
 
-  /**
-   * @return the various type qualifiers for this column (e.g. length or
-   *         scale/precision) in declaration order.  May be {@code null} or
-   *         empty if none.
-   */
-  public List<?> getTypeQualifiers();
+    /**
+     * @return the length of the type of this column, may be <code>null</code>
+     * @deprecated use {@link #getTypeQualifiers} instead
+     */
+    @Deprecated
+    public Integer getTypeLength();
 
-  /** @return any constraints for this column */
-  public List<? extends Constraint> getConstraints();
+    /**
+     * @return the various type qualifiers for this column (e.g. length or
+     * scale/precision) in declaration order.  May be {@code null} or
+     * empty if none.
+     */
+    public List<?> getTypeQualifiers();
 
-  /** @return the default value for this column, if any */
-  public Object getDefaultValue();
+    /**
+     * @return any constraints for this column
+     */
+    public List<? extends Constraint> getConstraints();
+
+    /**
+     * @return the default value for this column, if any
+     */
+    public Object getDefaultValue();
 }

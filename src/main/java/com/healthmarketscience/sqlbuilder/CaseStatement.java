@@ -24,23 +24,22 @@ package com.healthmarketscience.sqlbuilder;
  *
  * @author James Ahlborn
  */
-public class CaseStatement extends BaseCaseStatement<CaseStatement>
-{
-  public CaseStatement() {
-    super(null);
-  }
+public class CaseStatement extends BaseCaseStatement<CaseStatement> {
+    public CaseStatement() {
+        super(null);
+    }
 
-  /**
-   * Adds a "WHEN" clause to the "CASE" statement.
-   * <p>
-   * Result {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toColumnSqlObject(Object)}.
-   *
-   * @param test the condition to test for this "WHEN" clause
-   * @param result the result to output if this "WHEN" clause is selected
-   */
-  public CaseStatement addWhen(Condition test, Object result) {
-    return addCustomWhen(test, result);
-  }
-  
+    /**
+     * Adds a "WHEN" clause to the "CASE" statement.
+     * <p>
+     * Result {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toColumnSqlObject(Object)}.
+     *
+     * @param test   the condition to test for this "WHEN" clause
+     * @param result the result to output if this "WHEN" clause is selected
+     */
+    public CaseStatement addWhen(Condition test, Object result) {
+        return addCustomWhen(test, result);
+    }
+
 }

@@ -16,10 +16,11 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.custom;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.ValidationContext;
 import com.healthmarketscience.sqlbuilder.Expression;
+import com.healthmarketscience.sqlbuilder.ValidationContext;
+
+import java.io.IOException;
 
 /**
  * SqlObject expression which inserts a "named" parameter like {@code
@@ -28,21 +29,19 @@ import com.healthmarketscience.sqlbuilder.Expression;
  *
  * @author James Ahlborn
  */
-public class NamedParamObject extends Expression
-{
-  private String _name;
+public class NamedParamObject extends Expression {
+    private String _name;
 
-  public NamedParamObject(String name) 
-  {
-    _name = name;
-  }
+    public NamedParamObject(String name) {
+        _name = name;
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(':').append(_name);
-  }
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(':').append(_name);
+    }
 }

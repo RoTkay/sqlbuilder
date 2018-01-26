@@ -16,41 +16,42 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.custom.postgresql;
 
-import com.healthmarketscience.sqlbuilder.ValidationContext;
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.custom.HookType;
 import com.healthmarketscience.sqlbuilder.CreateTableQuery;
+import com.healthmarketscience.sqlbuilder.ValidationContext;
 import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
+import com.healthmarketscience.sqlbuilder.custom.HookType;
+
+import java.io.IOException;
 
 /**
  * Miscellaneous useful constructs for custom PostgreSQL syntax.
  *
  * @author James Ahlborn
  */
-public class PgObjects 
-{
-  /**
-   * Appends a PostgreSQL {@code "IF NOT EXISTS "} modifier after the
-   * {@code "CREATE TABLE "} query clause.
-   */
-  public static final CustomSyntax IF_NOT_EXISTS_TABLE = new CustomSyntax()
-  {
-    @Override
-    public void apply(CreateTableQuery query) {
-      query.addCustomization(CreateTableQuery.Hook.TABLE, HookType.SUFFIX, this);
+public class PgObjects {
+    /**
+     * Appends a PostgreSQL {@code "IF NOT EXISTS "} modifier after the
+     * {@code "CREATE TABLE "} query clause.
+     */
+    public static final CustomSyntax IF_NOT_EXISTS_TABLE = new CustomSyntax() {
+        @Override
+        public void apply(CreateTableQuery query) {
+            query.addCustomization(CreateTableQuery.Hook.TABLE, HookType.SUFFIX, this);
+        }
+
+        @Override
+        public void appendTo(AppendableExt app) throws IOException {
+            app.append("IF NOT EXISTS ");
+        }
+
+        @Override
+        protected void collectSchemaObjects(ValidationContext vContext) {
+        }
+    };
+
+
+    private PgObjects() {
     }
-
-    @Override
-    public void appendTo(AppendableExt app) throws IOException {
-      app.append("IF NOT EXISTS ");
-    }
-
-    @Override
-    protected void collectSchemaObjects(ValidationContext vContext) {}
-  };
-
-
-  private PgObjects() {}
 
 }

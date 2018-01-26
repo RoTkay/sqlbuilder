@@ -25,23 +25,24 @@ import com.healthmarketscience.sqlbuilder.dbspec.CheckConstraint;
  *
  * @author James Ahlborn
  */
-public class DbCheckConstraint extends DbConstraint 
-  implements CheckConstraint
-{
-  /** the condition for this constraint */
-  private final Condition _condition;
+public class DbCheckConstraint extends DbConstraint
+        implements CheckConstraint {
+    /**
+     * the condition for this constraint
+     */
+    private final Condition _condition;
 
-  public DbCheckConstraint(DbColumn parent, String name, Condition condition) {
-    super(parent, name, Type.CHECK);
-    _condition = condition;
-  }
+    public DbCheckConstraint(DbColumn parent, String name, Condition condition) {
+        super(parent, name, Type.CHECK);
+        _condition = condition;
+    }
 
-  public DbCheckConstraint(DbTable parent, String name, Condition condition) {
-    super(parent, name, Type.CHECK, (DbColumn[])null);
-    _condition = condition;
-  }
+    public DbCheckConstraint(DbTable parent, String name, Condition condition) {
+        super(parent, name, Type.CHECK, (DbColumn[]) null);
+        _condition = condition;
+    }
 
-  public Condition getCondition() {
-    return _condition;
-  }
+    public Condition getCondition() {
+        return _condition;
+    }
 }

@@ -16,9 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -26,28 +26,35 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public abstract class Expression extends NestableClause
-{
-  /** a Expression object which will always return <code>true</code> for
-      {@link Expression#isEmpty}.  useful for selectively including expression
-      blocks */
-  public static final Expression EMPTY = new Expression() {
-      @Override
-      public boolean isEmpty() { return true; }
-      @Override
-      protected void collectSchemaObjects(ValidationContext vContext) {}
-      @Override
-      public void appendTo(AppendableExt app) throws IOException {
-        throw new UnsupportedOperationException("Should never be called");
-      }
+public abstract class Expression extends NestableClause {
+    /**
+     * a Expression object which will always return <code>true</code> for
+     * {@link Expression#isEmpty}.  useful for selectively including expression
+     * blocks
+     */
+    public static final Expression EMPTY = new Expression() {
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        protected void collectSchemaObjects(ValidationContext vContext) {
+        }
+
+        @Override
+        public void appendTo(AppendableExt app) throws IOException {
+            throw new UnsupportedOperationException("Should never be called");
+        }
     };
 
-  
-  protected Expression() {}
-  
-  @Override
-  public Expression setDisableParens(boolean disableParens) {
-    super.setDisableParens(disableParens);
-    return this;
-  }  
+
+    protected Expression() {
+    }
+
+    @Override
+    public Expression setDisableParens(boolean disableParens) {
+        super.setDisableParens(disableParens);
+        return this;
+    }
 }

@@ -37,36 +37,35 @@ package com.healthmarketscience.sqlbuilder.custom;
  *
  * @author James Ahlborn
  */
-public enum HookType 
-{
-  /**
-   * Customization which is inserted before the anchor clause.  Unlike the
-   * {@code PREFIX} type, this type of customization will <i>always</i> be
-   * inserted regardless of whether or not the related anchor clause itself is
-   * included in the query.
-   */
-  BEFORE, 
-  /**
-   * Customization which is inserted before the anchor clause, but only if the
-   * anchor clause itself is included in the query.
-   */
-  PREFIX, 
-  /**
-   * Customization which <i>replaces</i> the anchor clause text (the related
-   * anchor clause text will not be inserted if this type of hook is added),
-   * but only if the anchor clause itself is included in the query.
-   */
-  REPLACEMENT, 
-  /**
-   * Customization which is inserted after the anchor clause, but only if the
-   * anchor clause itself is included in the query.
-   */
-  SUFFIX,
-  /**
-   * Customization which is inserted after the anchor clause.  Unlike the
-   * {@code SUFFIX} type, this type of customization will <i>always</i> be
-   * inserted regardless of whether or not the related anchor clause itself is
-   * included in the query.
-   */
-  AFTER;
+public enum HookType {
+    /**
+     * Customization which is inserted before the anchor clause.  Unlike the
+     * {@code PREFIX} type, this type of customization will <i>always</i> be
+     * inserted regardless of whether or not the related anchor clause itself is
+     * included in the query.
+     */
+    BEFORE,
+    /**
+     * Customization which is inserted before the anchor clause, but only if the
+     * anchor clause itself is included in the query.
+     */
+    PREFIX,
+    /**
+     * Customization which <i>replaces</i> the anchor clause text (the related
+     * anchor clause text will not be inserted if this type of hook is added),
+     * but only if the anchor clause itself is included in the query.
+     */
+    REPLACEMENT,
+    /**
+     * Customization which is inserted after the anchor clause, but only if the
+     * anchor clause itself is included in the query.
+     */
+    SUFFIX,
+    /**
+     * Customization which is inserted after the anchor clause.  Unlike the
+     * {@code SUFFIX} type, this type of customization will <i>always</i> be
+     * inserted regardless of whether or not the related anchor clause itself is
+     * included in the query.
+     */
+    AFTER;
 }

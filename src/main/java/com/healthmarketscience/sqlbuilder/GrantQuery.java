@@ -16,40 +16,41 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 /**
  * Query which generates a GRANT (privileges) statement.
  *
  * @author James Ahlborn
  */
-public class GrantQuery extends BaseGrantQuery<GrantQuery>
-{
+public class GrantQuery extends BaseGrantQuery<GrantQuery> {
 
-  private boolean _allowGranteeToGrant;
-  
-  public GrantQuery() {
-  }
+    private boolean _allowGranteeToGrant;
 
-  /** Sets whether or not grantee is allowed to grant these privileges to
-      others */
-  public GrantQuery setAllowGranteeToGrant(boolean newAllowGranteeToGrant) {
-    _allowGranteeToGrant = newAllowGranteeToGrant;
-    return this;
-  }
-  
-  @Override
-  protected void appendTo(AppendableExt app, SqlContext newContext)
-    throws IOException
-  {
-    newContext.setUseTableAliases(false);
-    
-    app.append("GRANT ").append(_privileges).append(" ON ")
-      .append(_targetObj).append(" TO ").append(_grantees);
-    if(_allowGranteeToGrant) {
-      app.append(" WITH GRANT OPTION");
+    public GrantQuery() {
     }
-  }
-  
+
+    /**
+     * Sets whether or not grantee is allowed to grant these privileges to
+     * others
+     */
+    public GrantQuery setAllowGranteeToGrant(boolean newAllowGranteeToGrant) {
+        _allowGranteeToGrant = newAllowGranteeToGrant;
+        return this;
+    }
+
+    @Override
+    protected void appendTo(AppendableExt app, SqlContext newContext)
+            throws IOException {
+        newContext.setUseTableAliases(false);
+
+        app.append("GRANT ").append(_privileges).append(" ON ")
+                .append(_targetObj).append(" TO ").append(_grantees);
+        if (_allowGranteeToGrant) {
+            app.append(" WITH GRANT OPTION");
+        }
+    }
+
 }

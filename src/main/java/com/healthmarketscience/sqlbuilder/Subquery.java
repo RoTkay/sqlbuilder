@@ -16,10 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 
+import java.io.IOException;
 
 
 /**
@@ -29,33 +28,32 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class Subquery extends Expression
-{
+public class Subquery extends Expression {
 
-  protected SqlObject _query;
+    protected SqlObject _query;
 
-  /**
-   * {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toCustomSqlObject(Object)}.
-   */
-  public Subquery(Object query) {
-    _query = ((query != null) ? Converter.toCustomSqlObject(query) :
-              null);
-  }
+    /**
+     * {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toCustomSqlObject(Object)}.
+     */
+    public Subquery(Object query) {
+        _query = ((query != null) ? Converter.toCustomSqlObject(query) :
+                null);
+    }
 
-  @Override
-  public boolean isEmpty() {
-    return _query == null;
-  }
-  
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    vContext.collectNestedQuerySchemaObjects(_query);
-  }
-    
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    appendCustomIfNotNull(app, _query);
-  }
+    @Override
+    public boolean isEmpty() {
+        return _query == null;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        vContext.collectNestedQuerySchemaObjects(_query);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        appendCustomIfNotNull(app, _query);
+    }
 
 }

@@ -26,46 +26,45 @@ import com.healthmarketscience.common.util.Tuple2;
  *
  * @author James Ahlborn
  */
-public class ValidationException extends RuntimeException
-{
-  private static final long serialVersionUID = -2933877497839744427L;  
+public class ValidationException extends RuntimeException {
+    private static final long serialVersionUID = -2933877497839744427L;
 
-  private transient Tuple2<ValidationContext,? extends Verifiable<?>> _failedVerifiable;
-  
-  public ValidationException(String message) {
-    super(message);
-  }
-  
-  public ValidationException(String message, Throwable cause) {
-    super(message, cause);
-  }
-  
-  public ValidationException(Throwable cause) {
-    super(cause);
-  }
+    private transient Tuple2<ValidationContext, ? extends Verifiable<?>> _failedVerifiable;
 
-  public Tuple2<ValidationContext,? extends Verifiable<?>> getFailedVerifiable() {
-    return _failedVerifiable;
-  }
-
-  public void setFailedVerifiable(
-      Tuple2<ValidationContext,? extends Verifiable<?>> newFailedVerifiable) {
-    _failedVerifiable = newFailedVerifiable;
-  }
-
-  @Override
-  public String getMessage() {
-    String msg = super.getMessage();
-    if(getFailedVerifiable() != null) {
-      Verifiable<?> verifiable = getFailedVerifiable().get1();
-      try {
-        msg = msg + " [Failed clause: " + verifiable + "]";
-      } catch(Exception e) {
-        msg = msg + " [Verifiable: " + verifiable.getClass().getName() + "@" +
-          Integer.toHexString(System.identityHashCode(verifiable)) + "]";
-      }
+    public ValidationException(String message) {
+        super(message);
     }
-    return msg;
-  }
-  
+
+    public ValidationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ValidationException(Throwable cause) {
+        super(cause);
+    }
+
+    public Tuple2<ValidationContext, ? extends Verifiable<?>> getFailedVerifiable() {
+        return _failedVerifiable;
+    }
+
+    public void setFailedVerifiable(
+            Tuple2<ValidationContext, ? extends Verifiable<?>> newFailedVerifiable) {
+        _failedVerifiable = newFailedVerifiable;
+    }
+
+    @Override
+    public String getMessage() {
+        String msg = super.getMessage();
+        if (getFailedVerifiable() != null) {
+            Verifiable<?> verifiable = getFailedVerifiable().get1();
+            try {
+                msg = msg + " [Failed clause: " + verifiable + "]";
+            } catch (Exception e) {
+                msg = msg + " [Verifiable: " + verifiable.getClass().getName() + "@" +
+                        Integer.toHexString(System.identityHashCode(verifiable)) + "]";
+            }
+        }
+        return msg;
+    }
+
 }

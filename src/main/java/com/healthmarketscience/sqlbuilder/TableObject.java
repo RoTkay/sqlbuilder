@@ -16,10 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 
+import java.io.IOException;
 
 
 /**
@@ -27,21 +27,20 @@ import com.healthmarketscience.sqlbuilder.dbspec.Table;
  *
  * @author James Ahlborn
  */
-class TableObject extends SqlObject
-{
-  protected Table _table;
-    
-  protected TableObject(Table table) {
-    _table = table;
-  }
+class TableObject extends SqlObject {
+    protected Table _table;
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    vContext.addTable(_table);
-  }
-    
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_table.getTableNameSQL());
-  }
+    protected TableObject(Table table) {
+        _table = table;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        vContext.addTable(_table);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_table.getTableNameSQL());
+    }
 }

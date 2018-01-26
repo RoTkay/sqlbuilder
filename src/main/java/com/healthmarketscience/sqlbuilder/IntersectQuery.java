@@ -27,13 +27,13 @@ package com.healthmarketscience.sqlbuilder;
  * @author James Ahlborn
  */
 public class IntersectQuery extends SetOperationQuery<IntersectQuery> {
-  
-  public IntersectQuery(Type type) {
-    this(type, (SelectQuery[])null);
-  }
 
-  public IntersectQuery(Type type, SelectQuery... queries) {
-    super(type, (Object[])queries);
-  }
+    public IntersectQuery(Type type) {
+        this(type, (SelectQuery[]) null);
+    }
+
+    public IntersectQuery(Type type, SelectQuery... queries) {
+        super(type, (Object[]) queries);
+    }
 
 }

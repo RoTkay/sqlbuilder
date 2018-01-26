@@ -16,40 +16,40 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 /**
  * Query which generates a REVOKE (privileges) statement.
  *
  * @author James Ahlborn
  */
-public class RevokeQuery extends BaseGrantQuery<RevokeQuery>
-{
+public class RevokeQuery extends BaseGrantQuery<RevokeQuery> {
 
-  private DropQuery.Behavior _behavior;
-  
-  public RevokeQuery() {
-  }
+    private DropQuery.Behavior _behavior;
 
-  /** Sets the behavior for the revoke query */
-  public RevokeQuery setBehavior(DropQuery.Behavior newBehavior) {
-    _behavior = newBehavior;
-    return this;
-  }  
-
-  @Override
-  protected void appendTo(AppendableExt app, SqlContext newContext)
-    throws IOException
-  {
-    newContext.setUseTableAliases(false);
-    
-    app.append("REVOKE ").append(_privileges).append(" ON ")
-      .append(_targetObj).append(" FROM ").append(_grantees);
-    if(_behavior != null) {
-      app.append(_behavior);
+    public RevokeQuery() {
     }
-  }
+
+    /**
+     * Sets the behavior for the revoke query
+     */
+    public RevokeQuery setBehavior(DropQuery.Behavior newBehavior) {
+        _behavior = newBehavior;
+        return this;
+    }
+
+    @Override
+    protected void appendTo(AppendableExt app, SqlContext newContext)
+            throws IOException {
+        newContext.setUseTableAliases(false);
+
+        app.append("REVOKE ").append(_privileges).append(" ON ")
+                .append(_targetObj).append(" FROM ").append(_grantees);
+        if (_behavior != null) {
+            app.append(_behavior);
+        }
+    }
 
 }

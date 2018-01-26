@@ -16,8 +16,6 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.custom.oracle;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.CreateIndexQuery;
 import com.healthmarketscience.sqlbuilder.CreateTableQuery;
@@ -25,43 +23,43 @@ import com.healthmarketscience.sqlbuilder.ValidationContext;
 import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
 import com.healthmarketscience.sqlbuilder.custom.HookType;
 
+import java.io.IOException;
+
 /**
  * Appends an Oracle {@code " TABLESPACE ..."} clause to a {@link
  * CreateTableQuery} or {@link CreateIndexQuery} if a tableSpace has been
  * specified.
- * 
- * @see CreateTableQuery#addCustomization(CustomSyntax)
- * @see CreateIndexQuery#addCustomization(CustomSyntax)
  *
  * @author James Ahlborn
+ * @see CreateTableQuery#addCustomization(CustomSyntax)
+ * @see CreateIndexQuery#addCustomization(CustomSyntax)
  */
-public class OraTableSpaceClause extends CustomSyntax
-{
-  private String _tableSpace;
+public class OraTableSpaceClause extends CustomSyntax {
+    private String _tableSpace;
 
-  public OraTableSpaceClause(String tableSpace) {
-    _tableSpace = tableSpace;
-  }
-
-  @Override
-  public void apply(CreateTableQuery query) {
-    query.addCustomization(CreateTableQuery.Hook.TRAILER, HookType.BEFORE, this);
-  }
-
-  @Override
-  public void apply(CreateIndexQuery query) {
-    query.addCustomization(CreateIndexQuery.Hook.TRAILER, HookType.BEFORE, this);
-  }
-
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    if (_tableSpace != null) {
-      app.append(" TABLESPACE " + _tableSpace);
+    public OraTableSpaceClause(String tableSpace) {
+        _tableSpace = tableSpace;
     }
-  }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    // nothing to do
-  }
+    @Override
+    public void apply(CreateTableQuery query) {
+        query.addCustomization(CreateTableQuery.Hook.TRAILER, HookType.BEFORE, this);
+    }
+
+    @Override
+    public void apply(CreateIndexQuery query) {
+        query.addCustomization(CreateIndexQuery.Hook.TRAILER, HookType.BEFORE, this);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        if (_tableSpace != null) {
+            app.append(" TABLESPACE " + _tableSpace);
+        }
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        // nothing to do
+    }
 }

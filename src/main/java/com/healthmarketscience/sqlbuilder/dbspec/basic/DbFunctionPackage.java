@@ -28,49 +28,53 @@ import java.util.List;
  * @author James Ahlborn
  */
 public class DbFunctionPackage extends DbObject<DbSchema> {
-  
-  /** functions currently created for this db spec */
-  private final List<DbFunction> _functions = new ArrayList<DbFunction>();
 
-  public DbFunctionPackage(DbSchema parent, String name) {
-    super(parent, name);
-  }
+    /**
+     * functions currently created for this db spec
+     */
+    private final List<DbFunction> _functions = new ArrayList<DbFunction>();
 
-  public DbSchema getSchema() {
-    return getParent();
-  }
-    
-  /**
-   * @param name name of the function to find
-   * @return the function previously added to this package with the given
-   *         name, or {@code null} if none.
-   */
-  public DbFunction findFunction(String name) {
-    return findObject(_functions, name);
-  }
+    public DbFunctionPackage(DbSchema parent, String name) {
+        super(parent, name);
+    }
 
-  /**
-   * Creates and adds a function with the given name to this package.
-   * <p>
-   * Note, no effort is made to make sure the given name is unique.
-   * @param name the name of the new function
-   * @return the freshly created function
-   */
-  public DbFunction addFunction(String name) {
-    DbFunction function = getSpec().createFunction(this, name);
-    return addFunction(function);
-  }    
+    public DbSchema getSchema() {
+        return getParent();
+    }
 
-  /**
-   * Adds the given function to this package.
-   * <p>
-   * Note, no effort is made to make sure the given function is unique.
-   * @param function the function to be added
-   * @return the given function
-   */
-  public <T extends DbFunction> T addFunction(T function) {
-    _functions.add(checkOwnership(function));
-    return function;
-  }    
+    /**
+     * @param name name of the function to find
+     * @return the function previously added to this package with the given
+     * name, or {@code null} if none.
+     */
+    public DbFunction findFunction(String name) {
+        return findObject(_functions, name);
+    }
+
+    /**
+     * Creates and adds a function with the given name to this package.
+     * <p>
+     * Note, no effort is made to make sure the given name is unique.
+     *
+     * @param name the name of the new function
+     * @return the freshly created function
+     */
+    public DbFunction addFunction(String name) {
+        DbFunction function = getSpec().createFunction(this, name);
+        return addFunction(function);
+    }
+
+    /**
+     * Adds the given function to this package.
+     * <p>
+     * Note, no effort is made to make sure the given function is unique.
+     *
+     * @param function the function to be added
+     * @return the given function
+     */
+    public <T extends DbFunction> T addFunction(T function) {
+        _functions.add(checkOwnership(function));
+        return function;
+    }
 
 }

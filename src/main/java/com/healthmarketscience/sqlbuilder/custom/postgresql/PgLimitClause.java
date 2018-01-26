@@ -16,77 +16,67 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.custom.postgresql;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.Converter;
-import com.healthmarketscience.sqlbuilder.NumberValueObject;
-import com.healthmarketscience.sqlbuilder.SelectQuery;
-import com.healthmarketscience.sqlbuilder.SqlObject;
-import com.healthmarketscience.sqlbuilder.ValidationContext;
-import com.healthmarketscience.sqlbuilder.ValidationException;
-import com.healthmarketscience.sqlbuilder.Verifiable;
+import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
 import com.healthmarketscience.sqlbuilder.custom.HookType;
+
+import java.io.IOException;
 
 
 /**
  * Appends a PostgreSQL limit clause like {@code " LIMIT <limit>"} for use in
  * {@link SelectQuery}s.
  *
- * @see SelectQuery#addCustomization(CustomSyntax)
- *
  * @author James Ahlborn
+ * @see SelectQuery#addCustomization(CustomSyntax)
  */
-public class PgLimitClause extends CustomSyntax 
-  implements Verifiable<PgLimitClause>
-{
-  private SqlObject _value;
+public class PgLimitClause extends CustomSyntax
+        implements Verifiable<PgLimitClause> {
+    private SqlObject _value;
 
-  public PgLimitClause(Object value) {
-    _value = Converter.toValueSqlObject(value);
-  }
-
-  @Override
-  public void apply(SelectQuery query) {
-    query.addCustomization(SelectQuery.Hook.FOR_UPDATE, HookType.BEFORE, this);
-  }
-
-  @Override
-  public void appendTo(AppendableExt app) throws IOException
-  {
-    app.append(" LIMIT ");
-    app.append(_value);
-  }
-
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    vContext.addVerifiable(this);
-    collectSchemaObjects(_value, vContext);
-  }
-
-  public final PgLimitClause validate() throws ValidationException {
-    doValidate();
-    return this;
-  }
-
-  public void validate(ValidationContext vContext)
-    throws ValidationException
-  {
-    if(_value == null) {
-      throw new ValidationException("Limit clause is missing row count");
+    public PgLimitClause(Object value) {
+        _value = Converter.toValueSqlObject(value);
     }
-    validateValue(_value, "Limit");
-  }
 
-  static void validateValue(SqlObject valueObj, String type) {
-    if(!(valueObj instanceof NumberValueObject)) {
-      // nothing we can do, custom value
-      return;
+    @Override
+    public void apply(SelectQuery query) {
+        query.addCustomization(SelectQuery.Hook.FOR_UPDATE, HookType.BEFORE, this);
     }
-    if(!((NumberValueObject)valueObj).isIntegralInRange(0, Long.MAX_VALUE)) {
-        throw new ValidationException(
-            type + " value must be positive integer, given: " + valueObj);
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(" LIMIT ");
+        app.append(_value);
     }
-  }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        vContext.addVerifiable(this);
+        collectSchemaObjects(_value, vContext);
+    }
+
+    public final PgLimitClause validate() throws ValidationException {
+        doValidate();
+        return this;
+    }
+
+    public void validate(ValidationContext vContext)
+            throws ValidationException {
+        if (_value == null) {
+            throw new ValidationException("Limit clause is missing row count");
+        }
+        validateValue(_value, "Limit");
+    }
+
+    static void validateValue(SqlObject valueObj, String type) {
+        if (!(valueObj instanceof NumberValueObject)) {
+            // nothing we can do, custom value
+            return;
+        }
+        if (!((NumberValueObject) valueObj).isIntegralInRange(0, Long.MAX_VALUE)) {
+            throw new ValidationException(
+                    type + " value must be positive integer, given: " + valueObj);
+        }
+    }
 }

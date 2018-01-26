@@ -16,66 +16,67 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
  * Outputs an extract expression like:
  * <code>"EXTRACT(&lt;datePart&gt; FROM &lt;dateExpression&gt;)"</code>
  *
- * @see "SQL 2003"
  * @author Andrey Karepin
+ * @see "SQL 2003"
  */
-public class ExtractExpression extends Expression
-{
-  /**
-   * The SQL defined date parts for the extract expression.  Many databases
-   * have extensions to these choices which can be found in the relevant
-   * extensions module.
-   * 
-   * @see com.healthmarketscience.sqlbuilder.custom.postgresql.PgExtractDatePart
-   * @see com.healthmarketscience.sqlbuilder.custom.mysql.MysExtractDatePart
-   * @see com.healthmarketscience.sqlbuilder.custom.oracle.OraExtractDatePart
-   */
-  public enum DatePart
-  {
-    YEAR,
-    MONTH, 
-    DAY, 
-    HOUR, 
-    MINUTE, 
-    SECOND, 
-    TIMEZONE_HOUR, 
-    TIMEZONE_MINUTE;
-  }
+public class ExtractExpression extends Expression {
+    /**
+     * The SQL defined date parts for the extract expression.  Many databases
+     * have extensions to these choices which can be found in the relevant
+     * extensions module.
+     *
+     * @see com.healthmarketscience.sqlbuilder.custom.postgresql.PgExtractDatePart
+     * @see com.healthmarketscience.sqlbuilder.custom.mysql.MysExtractDatePart
+     * @see com.healthmarketscience.sqlbuilder.custom.oracle.OraExtractDatePart
+     */
+    public enum DatePart {
+        YEAR,
+        MONTH,
+        DAY,
+        HOUR,
+        MINUTE,
+        SECOND,
+        TIMEZONE_HOUR,
+        TIMEZONE_MINUTE;
+    }
 
-  private final Object _datePart;
-  private final SqlObject _dateExpression;
+    private final Object _datePart;
+    private final SqlObject _dateExpression;
 
-  public ExtractExpression(DatePart datePart, Object dateExpression) {
-    this((Object)datePart, dateExpression);
-  }
+    public ExtractExpression(DatePart datePart, Object dateExpression) {
+        this((Object) datePart, dateExpression);
+    }
 
-  public ExtractExpression(Object datePart, Object dateExpression) {
-    _datePart = datePart;
-    _dateExpression = Converter.toColumnSqlObject(dateExpression);
-  }
+    public ExtractExpression(Object datePart, Object dateExpression) {
+        _datePart = datePart;
+        _dateExpression = Converter.toColumnSqlObject(dateExpression);
+    }
 
-  @Override
-  public boolean hasParens() { return false; }
+    @Override
+    public boolean hasParens() {
+        return false;
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    _dateExpression.collectSchemaObjects(vContext);
-  }
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        _dateExpression.collectSchemaObjects(vContext);
+    }
 
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append("EXTRACT(")
-      .append(_datePart)
-      .append(" FROM ")
-      .append(_dateExpression)
-      .append(")");
-  }
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append("EXTRACT(")
+                .append(_datePart)
+                .append(" FROM ")
+                .append(_dateExpression)
+                .append(")");
+    }
 }

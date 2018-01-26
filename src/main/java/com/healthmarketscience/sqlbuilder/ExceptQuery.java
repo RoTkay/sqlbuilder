@@ -26,13 +26,13 @@ package com.healthmarketscience.sqlbuilder;
  * @author James Ahlborn
  */
 public class ExceptQuery extends SetOperationQuery<ExceptQuery> {
-  
-  public ExceptQuery(Type type) {
-    this(type, (SelectQuery[])null);
-  }
 
-  public ExceptQuery(Type type, SelectQuery... queries) {
-    super(type, (Object[])queries);
-  }
+    public ExceptQuery(Type type) {
+        this(type, (SelectQuery[]) null);
+    }
+
+    public ExceptQuery(Type type, SelectQuery... queries) {
+        super(type, (Object[]) queries);
+    }
 
 }

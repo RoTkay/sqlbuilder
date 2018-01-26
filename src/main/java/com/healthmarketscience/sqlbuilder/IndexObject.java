@@ -16,10 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Index;
+
+import java.io.IOException;
 
 
 /**
@@ -27,20 +27,19 @@ import com.healthmarketscience.sqlbuilder.dbspec.Index;
  *
  * @author James Ahlborn
  */
-class IndexObject extends SqlObject
-{
-  protected Index _index;
-    
-  IndexObject(Index index) {
-    _index = index;
-  }
-    
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_index.getIndexNameSQL());
-  }
+class IndexObject extends SqlObject {
+    protected Index _index;
+
+    IndexObject(Index index) {
+        _index = index;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_index.getIndexNameSQL());
+    }
 }

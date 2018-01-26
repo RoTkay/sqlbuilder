@@ -24,18 +24,20 @@ package com.healthmarketscience.sqlbuilder;
  */
 public class JdbcScalarFunction extends JdbcEscape {
 
-  /**
-   * {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toCustomSqlObject(Object)}.
-   */
-  public JdbcScalarFunction(Object functionCall) {
-    super(Type.SCALAR_FUNCTION,
-          Converter.toCustomSqlObject(functionCall));
-  }
+    /**
+     * {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toCustomSqlObject(Object)}.
+     */
+    public JdbcScalarFunction(Object functionCall) {
+        super(Type.SCALAR_FUNCTION,
+                Converter.toCustomSqlObject(functionCall));
+    }
 
-  /** JdbcScalarFunction which represents the scalar function NOW for
-      returning a timestamp of the current time. */
-  public static final JdbcScalarFunction NOW =
-    new JdbcScalarFunction(new FunctionCall(new CustomSql("NOW")));
-  
+    /**
+     * JdbcScalarFunction which represents the scalar function NOW for
+     * returning a timestamp of the current time.
+     */
+    public static final JdbcScalarFunction NOW =
+            new JdbcScalarFunction(new FunctionCall(new CustomSql("NOW")));
+
 }

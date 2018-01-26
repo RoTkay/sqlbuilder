@@ -16,10 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Constraint;
+
+import java.io.IOException;
 
 /**
  * Outputs the beginning of a constraint clause, either
@@ -28,23 +28,22 @@ import com.healthmarketscience.sqlbuilder.dbspec.Constraint;
  *
  * @author James Ahlborn
  */
-class ConstraintObject extends SqlObject
-{
-  protected Constraint _constraint;
+class ConstraintObject extends SqlObject {
+    protected Constraint _constraint;
 
-  protected ConstraintObject(Constraint constraint) {
-    _constraint = constraint;
-  }
-
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-    
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    String name = _constraint.getConstraintNameSQL();
-    if(name != null) {
-      app.append("CONSTRAINT ").append(name).append(" ");
+    protected ConstraintObject(Constraint constraint) {
+        _constraint = constraint;
     }
-  }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        String name = _constraint.getConstraintNameSQL();
+        if (name != null) {
+            app.append("CONSTRAINT ").append(name).append(" ");
+        }
+    }
 }

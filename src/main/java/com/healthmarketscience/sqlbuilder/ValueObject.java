@@ -16,9 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -26,23 +26,24 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class ValueObject extends Expression
-{
-  private Object _value;
+public class ValueObject extends Expression {
+    private Object _value;
 
-  public ValueObject(Object value) {
-    _value = value;
-  }
+    public ValueObject(Object value) {
+        _value = value;
+    }
 
-  @Override
-  public boolean hasParens() { return false; }
+    @Override
+    public boolean hasParens() {
+        return false;
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append("'").append(_value).append("'");
-  }
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append("'").append(_value).append("'");
+    }
 }

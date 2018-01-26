@@ -16,9 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -26,28 +26,35 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public abstract class Condition extends NestableClause
-{
-  /** a Condition object which will always return <code>true</code> for
-      {@link Condition#isEmpty}.  useful for selectively including condition
-      blocks */
-  public static final Condition EMPTY = new Condition() {
-      @Override
-      public boolean isEmpty() { return true; }
-      @Override
-      protected void collectSchemaObjects(ValidationContext vContext) {}
-      @Override
-      public void appendTo(AppendableExt app) throws IOException {
-        throw new UnsupportedOperationException("Should never be called");
-      }
+public abstract class Condition extends NestableClause {
+    /**
+     * a Condition object which will always return <code>true</code> for
+     * {@link Condition#isEmpty}.  useful for selectively including condition
+     * blocks
+     */
+    public static final Condition EMPTY = new Condition() {
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        protected void collectSchemaObjects(ValidationContext vContext) {
+        }
+
+        @Override
+        public void appendTo(AppendableExt app) throws IOException {
+            throw new UnsupportedOperationException("Should never be called");
+        }
     };
 
-  
-  protected Condition() {}
 
-  @Override
-  public Condition setDisableParens(boolean disableParens) {
-    super.setDisableParens(disableParens);
-    return this;
-  }  
+    protected Condition() {
+    }
+
+    @Override
+    public Condition setDisableParens(boolean disableParens) {
+        super.setDisableParens(disableParens);
+        return this;
+    }
 }

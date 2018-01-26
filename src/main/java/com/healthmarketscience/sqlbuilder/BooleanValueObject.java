@@ -16,9 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -34,53 +34,58 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class BooleanValueObject extends Expression
-{
-  public static final String USE_BOOLEAN_LITERALS_PROPERTY = 
-    "com.healthmarketscience.sqlbuilder.useBooleanLiterals";
+public class BooleanValueObject extends Expression {
+    public static final String USE_BOOLEAN_LITERALS_PROPERTY =
+            "com.healthmarketscience.sqlbuilder.useBooleanLiterals";
 
-  private static final boolean USE_LITERAL_VALUES = 
-    Boolean.getBoolean(USE_BOOLEAN_LITERALS_PROPERTY);
-  
-  private static final Object TRUE_VALUE = (USE_LITERAL_VALUES ? "TRUE" : 1);
-  private static final Object FALSE_VALUE = (USE_LITERAL_VALUES ? "FALSE" : 0);
+    private static final boolean USE_LITERAL_VALUES =
+            Boolean.getBoolean(USE_BOOLEAN_LITERALS_PROPERTY);
 
-  /** BooleanValueObject representing "true" */
-  public static final BooleanValueObject TRUE = new BooleanValueObject(true);
-  /** BooleanValueObject representing "false" */
-  public static final BooleanValueObject FALSE = new BooleanValueObject(false);
+    private static final Object TRUE_VALUE = (USE_LITERAL_VALUES ? "TRUE" : 1);
+    private static final Object FALSE_VALUE = (USE_LITERAL_VALUES ? "FALSE" : 0);
+
+    /**
+     * BooleanValueObject representing "true"
+     */
+    public static final BooleanValueObject TRUE = new BooleanValueObject(true);
+    /**
+     * BooleanValueObject representing "false"
+     */
+    public static final BooleanValueObject FALSE = new BooleanValueObject(false);
 
 
-  private Boolean _value;
+    private Boolean _value;
 
-  public BooleanValueObject(Object value) {
-    this((Boolean)value);
-  }
+    public BooleanValueObject(Object value) {
+        this((Boolean) value);
+    }
 
-  public BooleanValueObject(Boolean value) {
-    _value = value;
-  }
+    public BooleanValueObject(Boolean value) {
+        _value = value;
+    }
 
-  /**
-   * Returns a BooleanValueObject for the given boolean value.
-   */
-  public static BooleanValueObject valueOf(Boolean value) {
-    return value ? TRUE : FALSE;
-  }
+    /**
+     * Returns a BooleanValueObject for the given boolean value.
+     */
+    public static BooleanValueObject valueOf(Boolean value) {
+        return value ? TRUE : FALSE;
+    }
 
-  @Override
-  public boolean hasParens() { return false; }
+    @Override
+    public boolean hasParens() {
+        return false;
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(toSqlValue(_value));
-  }
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
 
-  private static Object toSqlValue(Boolean b) {
-    return (b.booleanValue() ? TRUE_VALUE : FALSE_VALUE);
-  }
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(toSqlValue(_value));
+    }
+
+    private static Object toSqlValue(Boolean b) {
+        return (b.booleanValue() ? TRUE_VALUE : FALSE_VALUE);
+    }
 }

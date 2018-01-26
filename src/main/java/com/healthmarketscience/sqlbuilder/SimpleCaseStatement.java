@@ -26,56 +26,55 @@ import com.healthmarketscience.sqlbuilder.dbspec.Column;
  *
  * @author James Ahlborn
  */
-public class SimpleCaseStatement extends BaseCaseStatement<SimpleCaseStatement>
-{
+public class SimpleCaseStatement extends BaseCaseStatement<SimpleCaseStatement> {
 
-  /**
-   * @param column the column to reference at the beginning of the "CASE"
-   *               statement
-   */
-  public SimpleCaseStatement(Column column) {
-    this((Object)column);
-  }
+    /**
+     * @param column the column to reference at the beginning of the "CASE"
+     *               statement
+     */
+    public SimpleCaseStatement(Column column) {
+        this((Object) column);
+    }
 
-  /**
-   * {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toColumnSqlObject(Object)}.
-   * 
-   * @param operand the custom column to reference at the beginning of the
-   *                "CASE" statement
-   */
-  public SimpleCaseStatement(Object operand) {
-    super(Converter.toColumnSqlObject(operand));
-  }
+    /**
+     * {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toColumnSqlObject(Object)}.
+     *
+     * @param operand the custom column to reference at the beginning of the
+     *                "CASE" statement
+     */
+    public SimpleCaseStatement(Object operand) {
+        super(Converter.toColumnSqlObject(operand));
+    }
 
-  /**
-   * Adds a "WHEN" clause to the "CASE" statement.
-   * <p>
-   * Value {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toValueSqlObject(Object)}.
-   * Result {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toColumnSqlObject(Object)}.
-   *
-   * @param value the value to test against the column of this "CASE"
-   *              statement
-   * @param result the result to output if this "WHEN" clause is selected
-   */
-  public SimpleCaseStatement addNumericWhen(Object value, Object result) {
-    return addCustomWhen(Converter.toValueSqlObject(value), result);
-  }
-  
-  /**
-   * Adds a "WHEN" clause to the "CASE" statement.
-   * <p>
-   * Result {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toColumnSqlObject(Object)}.
-   *
-   * @param value the value to test against the column of this "CASE"
-   *              statement
-   * @param result the result to output if this "WHEN" clause is selected
-   */
-  public SimpleCaseStatement addWhen(String value, Object result) {
-    return addCustomWhen(new ValueObject(value), result);
-  }
-  
+    /**
+     * Adds a "WHEN" clause to the "CASE" statement.
+     * <p>
+     * Value {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toValueSqlObject(Object)}.
+     * Result {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toColumnSqlObject(Object)}.
+     *
+     * @param value  the value to test against the column of this "CASE"
+     *               statement
+     * @param result the result to output if this "WHEN" clause is selected
+     */
+    public SimpleCaseStatement addNumericWhen(Object value, Object result) {
+        return addCustomWhen(Converter.toValueSqlObject(value), result);
+    }
+
+    /**
+     * Adds a "WHEN" clause to the "CASE" statement.
+     * <p>
+     * Result {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toColumnSqlObject(Object)}.
+     *
+     * @param value  the value to test against the column of this "CASE"
+     *               statement
+     * @param result the result to output if this "WHEN" clause is selected
+     */
+    public SimpleCaseStatement addWhen(String value, Object result) {
+        return addCustomWhen(new ValueObject(value), result);
+    }
+
 }

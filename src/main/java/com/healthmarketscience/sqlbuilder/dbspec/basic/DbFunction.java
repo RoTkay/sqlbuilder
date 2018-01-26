@@ -24,18 +24,18 @@ import com.healthmarketscience.sqlbuilder.dbspec.Function;
  * @author James Ahlborn
  */
 public class DbFunction extends DbObject<DbFunctionPackage>
-  implements Function {
+        implements Function {
 
-  public DbFunction(DbFunctionPackage parent, String name) {
-    super(parent, name);
-  }
+    public DbFunction(DbFunctionPackage parent, String name) {
+        super(parent, name);
+    }
 
-  public DbFunctionPackage getFunctionPackage() {
-    return getParent();
-  }
+    public DbFunctionPackage getFunctionPackage() {
+        return getParent();
+    }
 
-  public String getFunctionNameSQL() {
-    return getAbsoluteName();
-  }
-     
+    public String getFunctionNameSQL() {
+        return getAbsoluteName();
+    }
+
 }

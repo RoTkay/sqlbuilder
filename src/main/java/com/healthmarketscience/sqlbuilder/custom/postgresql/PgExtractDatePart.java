@@ -20,30 +20,29 @@ package com.healthmarketscience.sqlbuilder.custom.postgresql;
  * The PostgreSQL defined date parts for the
  * {@link com.healthmarketscience.sqlbuilder.ExtractExpression}.
  *
- * @see "SQL 2003"
  * @author Andrey Karepin
+ * @see "SQL 2003"
  */
-public enum PgExtractDatePart 
-{
-  CENTURY,
-  DAY,
-  DECADE,
-  DOW,
-  DOY,
-  EPOCH,
-  HOUR,
-  ISODOW,
-  ISOYEAR,
-  MICROSECONDS,
-  MILLENNIUM,
-  MILLISECONDS,
-  MINUTE,
-  MONTH,
-  QUARTER,
-  SECOND,
-  TIMEZONE,
-  TIMEZONE_HOUR,
-  TIMEZONE_MINUTE,
-  WEEK,
-  YEAR;
+public enum PgExtractDatePart {
+    CENTURY,
+    DAY,
+    DECADE,
+    DOW,
+    DOY,
+    EPOCH,
+    HOUR,
+    ISODOW,
+    ISOYEAR,
+    MICROSECONDS,
+    MILLENNIUM,
+    MILLISECONDS,
+    MINUTE,
+    MONTH,
+    QUARTER,
+    SECOND,
+    TIMEZONE,
+    TIMEZONE_HOUR,
+    TIMEZONE_MINUTE,
+    WEEK,
+    YEAR;
 }

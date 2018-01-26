@@ -22,13 +22,11 @@ import com.healthmarketscience.sqlbuilder.Condition;
  * Maintains information about a database (table or column) check constraint
  * for use with the sqlbuilder utilities.
  *
- *
  * @author James Ahlborn
  */
-public interface CheckConstraint extends Constraint 
-{
-  /**
-   * @return the check condition for this constraint
-   */
-  public Condition getCondition();
+public interface CheckConstraint extends Constraint {
+    /**
+     * @return the check condition for this constraint
+     */
+    public Condition getCondition();
 }

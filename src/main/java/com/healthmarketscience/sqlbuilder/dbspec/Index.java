@@ -26,14 +26,20 @@ import java.util.List;
  */
 public interface Index {
 
-  /** @return a string which represents an absolute (fully qualified)
-      reference to this index, suitable for sql statements */
-  public String getIndexNameSQL();
+    /**
+     * @return a string which represents an absolute (fully qualified)
+     * reference to this index, suitable for sql statements
+     */
+    public String getIndexNameSQL();
 
-  /** @return the table of this index */
-  public Table getTable();
+    /**
+     * @return the table of this index
+     */
+    public Table getTable();
 
-  /** @return the columns in this index */
-  public List<? extends Column> getColumns();
+    /**
+     * @return the columns in this index
+     */
+    public List<? extends Column> getColumns();
 
 }

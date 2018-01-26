@@ -16,8 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 /**
  * Outputs the given object with a column alias
@@ -25,36 +26,36 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class AliasedObject extends SqlObject
-{
-  private SqlObject _obj;
-  private String _alias;
+public class AliasedObject extends SqlObject {
+    private SqlObject _obj;
+    private String _alias;
 
-  public AliasedObject(SqlObject obj, String alias) {
-    _obj = obj;
-    _alias = alias;
-  }
-
-  /**
-   * Optionally adds an alias to a SqlObject.
-   * @return the given SqlObject wrapped by an AliasedObject if the given
-   *         alias is non-<code>null</code>, otherwise, the given SqlObject.
-   */
-  public static SqlObject toAliasedObject(SqlObject obj, String alias) {
-    if(alias != null) {
-      obj = new AliasedObject(obj, alias);
+    public AliasedObject(SqlObject obj, String alias) {
+        _obj = obj;
+        _alias = alias;
     }
-    return obj;
-  }
-  
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    _obj.collectSchemaObjects(vContext);
-  }
 
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_obj).append(" AS ").append(_alias);
-  }
+    /**
+     * Optionally adds an alias to a SqlObject.
+     *
+     * @return the given SqlObject wrapped by an AliasedObject if the given
+     * alias is non-<code>null</code>, otherwise, the given SqlObject.
+     */
+    public static SqlObject toAliasedObject(SqlObject obj, String alias) {
+        if (alias != null) {
+            obj = new AliasedObject(obj, alias);
+        }
+        return obj;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        _obj.collectSchemaObjects(vContext);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_obj).append(" AS ").append(_alias);
+    }
 
 }

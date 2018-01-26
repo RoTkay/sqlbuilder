@@ -16,9 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -28,18 +28,18 @@ import com.healthmarketscience.common.util.AppendableExt;
  */
 public class Comment extends SqlObject {
 
-  private Object _commentStr;
-  
-  public Comment(Object commentStr) {
-    _commentStr = commentStr;
-  }
+    private Object _commentStr;
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(" -- ").append(_commentStr).append("\n");
-  }  
+    public Comment(Object commentStr) {
+        _commentStr = commentStr;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(" -- ").append(_commentStr).append("\n");
+    }
 }

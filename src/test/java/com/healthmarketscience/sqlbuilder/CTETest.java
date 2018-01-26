@@ -19,104 +19,102 @@ package com.healthmarketscience.sqlbuilder;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 
 /**
- *
  * @author James Ahlborn
  */
-public class CTETest extends BaseSqlTestCase
-{
-  public CTETest(String name) {
-    super(name);
-  }
+public class CTETest extends BaseSqlTestCase {
+    public CTETest(String name) {
+        super(name);
+    }
 
-  public void testBasicCTE() throws Exception
-  {
-    CommonTableExpression cte = new CommonTableExpression("cte_expr");
-    Column cteCol = cte.addColumn("col1");
-    cte.setQuery(new SelectQuery().addColumns(_defTable2_col_id));
+    public void testBasicCTE() throws Exception {
+        CommonTableExpression cte = new CommonTableExpression("cte_expr");
+        Column cteCol = cte.addColumn("col1");
+        cte.setQuery(new SelectQuery().addColumns(_defTable2_col_id));
 
-    SelectQuery selectQuery1 = new SelectQuery()
-      .addCommonTableExpression(cte)
-      .addColumns(_table1_col1, _defTable1_col2, _defTable2_col5, cteCol);
-    
-    String selectStr1 = selectQuery1.validate().toString();
-    assertEquals("WITH cte_expr (col1) AS (SELECT t2.col_id FROM Table2 t2) SELECT t0.col1,t1.col2,t2.col5,cte0.col1 FROM Schema1.Table1 t0,Table1 t1,Table2 t2,cte_expr cte0", selectStr1);
+        SelectQuery selectQuery1 = new SelectQuery()
+                .addCommonTableExpression(cte)
+                .addColumns(_table1_col1, _defTable1_col2, _defTable2_col5, cteCol);
 
-    cte = new CommonTableExpression("sales")
-      .setQuery(new SelectQuery().addAliasedColumn(_defTable2_col_id, "id"));
+        String selectStr1 = selectQuery1.validate().toString();
+        assertEquals("WITH cte_expr (col1) AS (SELECT t2.col_id FROM Table2 t2) SELECT t0.col1,t1.col2,t2.col5,cte0.col1 FROM Schema1.Table1 t0,Table1 t1,Table2 t2,cte_expr cte0", selectStr1);
 
-    SelectQuery selectQuery2 = new SelectQuery()
-      .addCommonTableExpression(cte)
-      .addCustomColumns(new CustomSql("id"))
-      .addCustomFromTable("sales");
+        cte = new CommonTableExpression("sales")
+                .setQuery(new SelectQuery().addAliasedColumn(_defTable2_col_id, "id"));
 
-    String selectStr2 = selectQuery2.validate().toString();
-    assertEquals("WITH sales AS (SELECT t2.col_id AS id FROM Table2 t2) SELECT id FROM sales", selectStr2);
+        SelectQuery selectQuery2 = new SelectQuery()
+                .addCommonTableExpression(cte)
+                .addCustomColumns(new CustomSql("id"))
+                .addCustomFromTable("sales");
 
-    CommonTableExpression cte1 = new CommonTableExpression("cte_expr");
-    Column cteCol1 = cte1.addColumn("col1");
-    cte1.setQuery(new SelectQuery().addColumns(_defTable2_col_id));
+        String selectStr2 = selectQuery2.validate().toString();
+        assertEquals("WITH sales AS (SELECT t2.col_id AS id FROM Table2 t2) SELECT id FROM sales", selectStr2);
 
-    CommonTableExpression cte2 = new CommonTableExpression("cte_expr2");
-    cte2.addColumn("col2");
-    cte2.setQuery(new SelectQuery().addColumns(_table1_col1)
-                  .addCondition(BinaryCondition.equalTo(_table1_col2, cteCol1)));
+        CommonTableExpression cte1 = new CommonTableExpression("cte_expr");
+        Column cteCol1 = cte1.addColumn("col1");
+        cte1.setQuery(new SelectQuery().addColumns(_defTable2_col_id));
 
-    DeleteQuery deleteQuery1 = new DeleteQuery(cte2.getTable())
-      .addCommonTableExpression(cte1)
-      .addCommonTableExpression(cte2)
-      .addCondition(BinaryCondition.greaterThan(cte2.findColumn("col2"), 10, false));
+        CommonTableExpression cte2 = new CommonTableExpression("cte_expr2");
+        cte2.addColumn("col2");
+        cte2.setQuery(new SelectQuery().addColumns(_table1_col1)
+                .addCondition(BinaryCondition.equalTo(_table1_col2, cteCol1)));
 
-    String deleteStr1 = deleteQuery1.validate().toString();
-    assertEquals("WITH cte_expr (col1) AS (SELECT t2.col_id FROM Table2 t2),cte_expr2 (col2) AS (SELECT t0.col1 FROM Schema1.Table1 t0,cte_expr cte0 WHERE (t0.col2 = cte0.col1)) DELETE FROM cte_expr2 WHERE (col2 > 10)", deleteStr1);
-  }
+        DeleteQuery deleteQuery1 = new DeleteQuery(cte2.getTable())
+                .addCommonTableExpression(cte1)
+                .addCommonTableExpression(cte2)
+                .addCondition(BinaryCondition.greaterThan(cte2.findColumn("col2"), 10, false));
 
-  public void testRecursiveCTE() throws Exception
-  {
-    CommonTableExpression cte = new CommonTableExpression("temp");
-    Column nCol = cte.addColumn("n");
-    Column factCol = cte.addColumn("fact");
+        String deleteStr1 = deleteQuery1.validate().toString();
+        assertEquals("WITH cte_expr (col1) AS (SELECT t2.col_id FROM Table2 t2),cte_expr2 (col2) AS (SELECT t0.col1 FROM Schema1.Table1 t0,cte_expr cte0 WHERE (t0.col2 = cte0.col1)) DELETE FROM cte_expr2 WHERE (col2 > 10)", deleteStr1);
+    }
 
-    SelectQuery selectQuery1 =
-      new SelectQuery().addAllTableColumns(cte.getTable())
-      .setRecursive(true)
-      .addCommonTableExpression(
-          cte.setQuery(
-              SetOperationQuery.unionAll(
-                  new SelectQuery().addCustomColumns(0, 1),
-                  new SelectQuery().addCustomColumns(
-                      ComboExpression.add(nCol, 1),
-                      ComboExpression.multiply(
-                          ComboExpression.add(nCol, 1),
-                          factCol))
-                  .addCondition(BinaryCondition.lessThan(nCol, 9, false)))));
+    public void testRecursiveCTE() throws Exception {
+        CommonTableExpression cte = new CommonTableExpression("temp");
+        Column nCol = cte.addColumn("n");
+        Column factCol = cte.addColumn("fact");
 
-    String selectStr1 = selectQuery1.validate().toString();
-    assertEquals("WITH RECURSIVE temp (n,fact) AS (SELECT 0,1 UNION ALL SELECT (cte0.n + 1),((cte0.n + 1) * cte0.fact) FROM temp cte0 WHERE (cte0.n < 9)) SELECT cte0.* FROM temp cte0", selectStr1);
-  }
+        SelectQuery selectQuery1 =
+                new SelectQuery().addAllTableColumns(cte.getTable())
+                        .setRecursive(true)
+                        .addCommonTableExpression(
+                                cte.setQuery(
+                                        SetOperationQuery.unionAll(
+                                                new SelectQuery().addCustomColumns(0, 1),
+                                                new SelectQuery().addCustomColumns(
+                                                        ComboExpression.add(nCol, 1),
+                                                        ComboExpression.multiply(
+                                                                ComboExpression.add(nCol, 1),
+                                                                factCol))
+                                                        .addCondition(BinaryCondition.lessThan(nCol, 9, false)))));
 
-  public void testValidation() throws Exception
-  {
-    try {
-      new CommonTableExpression("test")
-        .validate();
-      fail("ValidationException should have been thrown");
-    } catch(ValidationException e) {}
+        String selectStr1 = selectQuery1.validate().toString();
+        assertEquals("WITH RECURSIVE temp (n,fact) AS (SELECT 0,1 UNION ALL SELECT (cte0.n + 1),((cte0.n + 1) * cte0.fact) FROM temp cte0 WHERE (cte0.n < 9)) SELECT cte0.* FROM temp cte0", selectStr1);
+    }
 
-    try {
-      CommonTableExpression cte = new CommonTableExpression("test")
-        .setQuery(new SelectQuery().addCustomColumns(0, 1));
-      cte.addColumn("col1");
-      cte.validate();
-      fail("ValidationException should have been thrown");
-    } catch(ValidationException e) {}
+    public void testValidation() throws Exception {
+        try {
+            new CommonTableExpression("test")
+                    .validate();
+            fail("ValidationException should have been thrown");
+        } catch (ValidationException e) {
+        }
 
-    try {
-      CommonTableExpression cte = new CommonTableExpression("test")
-        .setQuery(new SelectQuery().addAllColumns());
-      cte.addColumn("col1");
-      cte.validate();
-      fail("ValidationException should have been thrown");
-    } catch(ValidationException e) {}
+        try {
+            CommonTableExpression cte = new CommonTableExpression("test")
+                    .setQuery(new SelectQuery().addCustomColumns(0, 1));
+            cte.addColumn("col1");
+            cte.validate();
+            fail("ValidationException should have been thrown");
+        } catch (ValidationException e) {
+        }
 
-  }
+        try {
+            CommonTableExpression cte = new CommonTableExpression("test")
+                    .setQuery(new SelectQuery().addAllColumns());
+            cte.addColumn("col1");
+            cte.validate();
+            fail("ValidationException should have been thrown");
+        } catch (ValidationException e) {
+        }
+
+    }
 }

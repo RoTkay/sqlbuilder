@@ -16,8 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -27,29 +28,30 @@ import com.healthmarketscience.common.util.AppendableExt;
  * @author James Ahlborn
  */
 abstract class BaseInsertQuery<ThisType extends BaseInsertQuery<ThisType>>
-  extends BaseCTEQuery<ThisType>
-{
-  private SqlObject _table;
-  protected SqlObjectList<SqlObject> _columns = SqlObjectList.create();
-    
-  /** @param tableStr name of the table into which to insert the values. */
-  public BaseInsertQuery(SqlObject tableStr) {
-    _table = tableStr;
-  }
+        extends BaseCTEQuery<ThisType> {
+    private SqlObject _table;
+    protected SqlObjectList<SqlObject> _columns = SqlObjectList.create();
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    super.collectSchemaObjects(vContext);
-    _table.collectSchemaObjects(vContext);
-    _columns.collectSchemaObjects(vContext);
-  }
+    /**
+     * @param tableStr name of the table into which to insert the values.
+     */
+    public BaseInsertQuery(SqlObject tableStr) {
+        _table = tableStr;
+    }
 
-  /**
-   * Appends the prefix "INSERT INTO (&lt;columns&gt;)" to the given
-   * AppendableExt.
-   */
-  protected void appendPrefixTo(AppendableExt app) throws IOException {
-    app.append("INSERT INTO ").append(_table)
-      .append(" (").append(_columns).append(") ");
-  }
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        super.collectSchemaObjects(vContext);
+        _table.collectSchemaObjects(vContext);
+        _columns.collectSchemaObjects(vContext);
+    }
+
+    /**
+     * Appends the prefix "INSERT INTO (&lt;columns&gt;)" to the given
+     * AppendableExt.
+     */
+    protected void appendPrefixTo(AppendableExt app) throws IOException {
+        app.append("INSERT INTO ").append(_table)
+                .append(" (").append(_columns).append(") ");
+    }
 }

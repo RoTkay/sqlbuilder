@@ -16,9 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -29,33 +29,34 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class CustomExpression extends Expression
-{
-  private SqlObject _expr;
+public class CustomExpression extends Expression {
+    private SqlObject _expr;
 
-  public CustomExpression(Object exprObj) {
-    this((exprObj != null) ?
-         (new CustomSql(exprObj)) :
-         (SqlObject)null);
-  }
-  
-  public CustomExpression(SqlObject exprStr) {
-    _expr = exprStr;
-  }
-
-  @Override
-  public boolean isEmpty() { return(_expr == null); }
-
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    if(_expr != null) {
-      _expr.collectSchemaObjects(vContext);
+    public CustomExpression(Object exprObj) {
+        this((exprObj != null) ?
+                (new CustomSql(exprObj)) :
+                (SqlObject) null);
     }
-  }
-    
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    appendCustomIfNotNull(app, _expr);
-  }
-  
+
+    public CustomExpression(SqlObject exprStr) {
+        _expr = exprStr;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return (_expr == null);
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        if (_expr != null) {
+            _expr.collectSchemaObjects(vContext);
+        }
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        appendCustomIfNotNull(app, _expr);
+    }
+
 }

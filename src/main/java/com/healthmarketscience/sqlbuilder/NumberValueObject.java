@@ -16,11 +16,11 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
+import com.healthmarketscience.common.util.AppendableExt;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
-import com.healthmarketscience.common.util.AppendableExt;
 
 
 /**
@@ -28,58 +28,59 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class NumberValueObject extends Expression
-{
-  private Number _value;
+public class NumberValueObject extends Expression {
+    private Number _value;
 
-  public NumberValueObject(Object value) {
-    this((Number)value);
-  }
-
-  public NumberValueObject(Number value) {
-    _value = value;
-  }
-
-  @Override
-  public boolean hasParens() { return false; }
-
-  /**
-   * @return {@code true} if this number value is an integral value in the
-   *         given range (inclusive), {@code false} otherwise.
-   */
-  public boolean isIntegralInRange(long min, long max) {
-    if(isFloatingPoint()) {
-      return false;
+    public NumberValueObject(Object value) {
+        this((Number) value);
     }
 
-    long value = _value.longValue();
-    return ((min <= value) && (value <= max));
-  }
-
-  /**
-   * @return <code>true</code> if the given number is a floating point value
-   */
-  private boolean isFloatingPoint() {
-    if(_value instanceof BigInteger) {
-      return false;
+    public NumberValueObject(Number value) {
+        _value = value;
     }
 
-    if((_value instanceof Float) || (_value instanceof Double)) {
-      return true;
+    @Override
+    public boolean hasParens() {
+        return false;
     }
 
-    BigDecimal dec = ((_value instanceof BigDecimal) ? 
-                      (BigDecimal)_value : new BigDecimal(_value.doubleValue()));
+    /**
+     * @return {@code true} if this number value is an integral value in the
+     * given range (inclusive), {@code false} otherwise.
+     */
+    public boolean isIntegralInRange(long min, long max) {
+        if (isFloatingPoint()) {
+            return false;
+        }
 
-    return(dec.scale() > 0);
-  }
+        long value = _value.longValue();
+        return ((min <= value) && (value <= max));
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_value);
-  }
+    /**
+     * @return <code>true</code> if the given number is a floating point value
+     */
+    private boolean isFloatingPoint() {
+        if (_value instanceof BigInteger) {
+            return false;
+        }
+
+        if ((_value instanceof Float) || (_value instanceof Double)) {
+            return true;
+        }
+
+        BigDecimal dec = ((_value instanceof BigDecimal) ?
+                (BigDecimal) _value : new BigDecimal(_value.doubleValue()));
+
+        return (dec.scale() > 0);
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_value);
+    }
 }

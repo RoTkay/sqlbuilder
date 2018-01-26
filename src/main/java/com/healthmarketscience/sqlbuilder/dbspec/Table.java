@@ -26,17 +26,25 @@ import java.util.List;
  */
 public interface Table {
 
-  /** @return the alias for this table which <b>should be</b> unique among all
-      tables in a given query */
-  public String getAlias();
-  
-  /** @return a string which represents an absolute (fully qualified)
-      reference to this table, suitable for sql statements */
-  public String getTableNameSQL();
+    /**
+     * @return the alias for this table which <b>should be</b> unique among all
+     * tables in a given query
+     */
+    public String getAlias();
 
-  /** @return the columns in this table */
-  public List<? extends Column> getColumns();
-  
-  /** @return any constraints for this table */
-  public List<? extends Constraint> getConstraints();
+    /**
+     * @return a string which represents an absolute (fully qualified)
+     * reference to this table, suitable for sql statements
+     */
+    public String getTableNameSQL();
+
+    /**
+     * @return the columns in this table
+     */
+    public List<? extends Column> getColumns();
+
+    /**
+     * @return any constraints for this table
+     */
+    public List<? extends Constraint> getConstraints();
 }

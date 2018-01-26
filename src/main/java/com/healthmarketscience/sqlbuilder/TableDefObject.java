@@ -16,9 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
+
+import java.io.IOException;
 
 
 /**
@@ -27,26 +28,25 @@ import com.healthmarketscience.sqlbuilder.dbspec.Table;
  *
  * @author James Ahlborn
  */
-class TableDefObject extends TableObject
-{
-  TableDefObject(Table table) {
-    super(table);
-  }
-
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_table.getTableNameSQL());
-    String alias = _table.getAlias();
-    if(hasAlias(alias)) {
-      app.append(" ").append(alias);
+class TableDefObject extends TableObject {
+    TableDefObject(Table table) {
+        super(table);
     }
-  }
 
-  /**
-   * Returns {@code true} if the given alias is a non-empty string, {@code
-   * false} otherwise.
-   */
-  public static boolean hasAlias(String alias) {
-    return ((alias != null) && (alias.length() > 0));
-  }
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_table.getTableNameSQL());
+        String alias = _table.getAlias();
+        if (hasAlias(alias)) {
+            app.append(" ").append(alias);
+        }
+    }
+
+    /**
+     * Returns {@code true} if the given alias is a non-empty string, {@code
+     * false} otherwise.
+     */
+    public static boolean hasAlias(String alias) {
+        return ((alias != null) && (alias.length() > 0));
+    }
 }

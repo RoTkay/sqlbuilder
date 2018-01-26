@@ -16,54 +16,56 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
  * Outputs a "BETWEEN" condition
  * <code>"(&lt;column&gt; [NOT] BETWEEN (&lt;rightObj1&gt;, &lt;rightObj2&gt;, ...) )"</code>
- * 
+ *
  * @author James Ahlborn
  */
 public class BetweenCondition extends Condition {
 
-  private boolean _negate;
-  private SqlObject _value;
-  private SqlObject _minValue;
-  private SqlObject _maxValue;
+    private boolean _negate;
+    private SqlObject _value;
+    private SqlObject _minValue;
+    private SqlObject _maxValue;
 
-  /**
-   * Column {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toColumnSqlObject}.
-   */
-  public BetweenCondition(Object obj, Object minObj, Object maxObj) {
-    _value = Converter.toColumnSqlObject(obj);
-    _minValue = Converter.toColumnSqlObject(minObj);
-    _maxValue = Converter.toColumnSqlObject(maxObj);
-  }
+    /**
+     * Column {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toColumnSqlObject}.
+     */
+    public BetweenCondition(Object obj, Object minObj, Object maxObj) {
+        _value = Converter.toColumnSqlObject(obj);
+        _minValue = Converter.toColumnSqlObject(minObj);
+        _maxValue = Converter.toColumnSqlObject(maxObj);
+    }
 
-  /** Sets whether or not the between condition should be negated or not */
-  public BetweenCondition setNegate(boolean negate) {
-    _negate = negate;
-    return this;
-  }
-  
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    _value.collectSchemaObjects(vContext);
-    _minValue.collectSchemaObjects(vContext);
-    _maxValue.collectSchemaObjects(vContext);
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    // (x between min and max )
-    openParen(app);
-    app.append(_value)
-      .append(_negate ? " NOT BETWEEN " : " BETWEEN ")
-      .append(_minValue).append(" AND ").append(_maxValue);
-    closeParen(app);
-  }
+    /**
+     * Sets whether or not the between condition should be negated or not
+     */
+    public BetweenCondition setNegate(boolean negate) {
+        _negate = negate;
+        return this;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        _value.collectSchemaObjects(vContext);
+        _minValue.collectSchemaObjects(vContext);
+        _maxValue.collectSchemaObjects(vContext);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        // (x between min and max )
+        openParen(app);
+        app.append(_value)
+                .append(_negate ? " NOT BETWEEN " : " BETWEEN ")
+                .append(_minValue).append(" AND ").append(_maxValue);
+        closeParen(app);
+    }
 }

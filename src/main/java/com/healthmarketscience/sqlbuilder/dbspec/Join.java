@@ -26,20 +26,28 @@ import java.util.List;
  */
 public interface Join {
 
-  /** @return the table which is the "left side" of this join */
-  public Table getFromTable();
-  
-  /** @return the table which is the "right side" of this join */
-  public Table getToTable();
+    /**
+     * @return the table which is the "left side" of this join
+     */
+    public Table getFromTable();
 
-  /** @return the columns in the "left side" table which are related to the
-      columns in the "right side" table.  must be the same length as
-      the list returned from <code>getToColumns</code> */
-  public List<? extends Column> getFromColumns();
-  
-  /** @return the columns in the "right side" table which are related to the
-      columns in the "to side" table.  must be the same length as
-      the list returned from <code>getFromColumns</code> */
-  public List<? extends Column> getToColumns();
-  
+    /**
+     * @return the table which is the "right side" of this join
+     */
+    public Table getToTable();
+
+    /**
+     * @return the columns in the "left side" table which are related to the
+     * columns in the "right side" table.  must be the same length as
+     * the list returned from <code>getToColumns</code>
+     */
+    public List<? extends Column> getFromColumns();
+
+    /**
+     * @return the columns in the "right side" table which are related to the
+     * columns in the "to side" table.  must be the same length as
+     * the list returned from <code>getFromColumns</code>
+     */
+    public List<? extends Column> getToColumns();
+
 }

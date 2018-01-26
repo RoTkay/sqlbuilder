@@ -16,10 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.dbspec.basic;
 
+import com.healthmarketscience.sqlbuilder.dbspec.Index;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.healthmarketscience.sqlbuilder.dbspec.Index;
 
 /**
  * Representation of an index in a database schema.
@@ -28,38 +28,42 @@ import com.healthmarketscience.sqlbuilder.dbspec.Index;
  */
 public class DbIndex extends DbObject<DbSchema> implements Index {
 
-  /** the table which is indexed */
-  private final DbTable _table;
-  /** the columns of the table which are indexed */
-  private final List<DbColumn> _columns = new ArrayList<DbColumn>();
+    /**
+     * the table which is indexed
+     */
+    private final DbTable _table;
+    /**
+     * the columns of the table which are indexed
+     */
+    private final List<DbColumn> _columns = new ArrayList<DbColumn>();
 
-  public DbIndex(DbTable table, String name,
-                 String... colNames) {
-    this(table, name, table.findColumns(colNames));
-  }
-  
-  public DbIndex(DbTable table, String name,
-                 DbColumn... columns) {
-    super(table.getParent(), name);
-    _table = table;
-    addObjects(_columns, _table, columns);
-  }
+    public DbIndex(DbTable table, String name,
+                   String... colNames) {
+        this(table, name, table.findColumns(colNames));
+    }
 
-  public DbSchema getSchema() {
-    return getParent();
-  }
-    
-  public String getIndexNameSQL() {
-    return getAbsoluteName();
-  }
+    public DbIndex(DbTable table, String name,
+                   DbColumn... columns) {
+        super(table.getParent(), name);
+        _table = table;
+        addObjects(_columns, _table, columns);
+    }
 
-  public DbTable getTable() {
-    return _table;
-  }
+    public DbSchema getSchema() {
+        return getParent();
+    }
 
-  public List<DbColumn> getColumns() {
-    return _columns;
-  }
-    
- 
+    public String getIndexNameSQL() {
+        return getAbsoluteName();
+    }
+
+    public DbTable getTable() {
+        return _table;
+    }
+
+    public List<DbColumn> getColumns() {
+        return _columns;
+    }
+
+
 }

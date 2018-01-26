@@ -16,12 +16,12 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
+import com.healthmarketscience.common.util.AppendableExt;
+import com.healthmarketscience.sqlbuilder.dbspec.Column;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.dbspec.Column;
 
 
 /**
@@ -31,103 +31,102 @@ import com.healthmarketscience.sqlbuilder.dbspec.Column;
  *
  * @author James Ahlborn
  */
-class TypedColumnObject extends ColumnObject
-{
-  private String _typeName;
-  private SqlObjectList<SqlObject> _constraints = SqlObjectList.create(" ");
-  private SqlObject _defaultValue;
+class TypedColumnObject extends ColumnObject {
+    private String _typeName;
+    private SqlObjectList<SqlObject> _constraints = SqlObjectList.create(" ");
+    private SqlObject _defaultValue;
 
-  TypedColumnObject(Column column) {
-    super(column);
+    TypedColumnObject(Column column) {
+        super(column);
 
-    _typeName = column.getTypeNameSQL();
-    _constraints.addObjects(Converter.CUSTOM_TO_CONSTRAINTCLAUSE,
-                            column.getConstraints());
-    Object defVal = column.getDefaultValue();
-    if(defVal != null) {
-      _defaultValue = Converter.toValueSqlObject(defVal);
-    }
-  }
-
-  /**
-   * Sets the column type name
-   */
-  void setTypeName(String typeName) {
-    _typeName = typeName;
-  }
-
-  /**
-   * Adds the given object as a column constraint.
-   * <p>
-   * {@code Object} -&gt; {@code SqlObject} constraint conversions handled by
-   * {@link Converter#toCustomConstraintClause}.
-   */
-  void addConstraint(Object obj) {
-    _constraints.addObject(Converter.toCustomConstraintClause(obj));
-  }
-
-  /**
-   * Sets the given value as the column default value.
-   * <p>
-   * {@code Object} -&gt; {@code SqlObject} value conversions handled by
-   * {@link Converter#toValueSqlObject}.
-   */
-  void setDefaultValue(Object val) {
-    _defaultValue = Converter.toValueSqlObject(val);
-  }
-   
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    super.collectSchemaObjects(vContext);
-    _constraints.collectSchemaObjects(vContext);
-    if(_defaultValue != null) {
-      _defaultValue.collectSchemaObjects(vContext);
-    }
-  }
- 
-  @Override
-  @SuppressWarnings("deprecation")
-  public void appendTo(AppendableExt app) throws IOException {
-
-    app.append(_column.getColumnNameSQL()).append(" ").append(_typeName);
-
-    List<?> colQuals = _column.getTypeQualifiers();
-    if(colQuals != null) {
-
-      if(!colQuals.isEmpty()) {
-        app.append("(");
-        Iterator<?> iter = colQuals.iterator();
-        app.append(iter.next());
-        while(iter.hasNext()) {
-          app.append(",").append(iter.next());
+        _typeName = column.getTypeNameSQL();
+        _constraints.addObjects(Converter.CUSTOM_TO_CONSTRAINTCLAUSE,
+                column.getConstraints());
+        Object defVal = column.getDefaultValue();
+        if (defVal != null) {
+            _defaultValue = Converter.toValueSqlObject(defVal);
         }
-        app.append(")");
-      }
-
-    } else {
-
-      // backwards compat code
-      Integer colFieldLength = _column.getTypeLength();
-      if(colFieldLength != null) {
-        app.append("(").append(colFieldLength).append(")");
-      }
     }
 
-    if(_defaultValue != null) {
-      app.append(" DEFAULT ").append(_defaultValue);
+    /**
+     * Sets the column type name
+     */
+    void setTypeName(String typeName) {
+        _typeName = typeName;
     }
 
-    if(!_constraints.isEmpty()) {
-
-      SqlContext context = SqlContext.pushContext(app);
-      // generate constraint clauses in their "column" format
-      context.setUseTableConstraints(false);
-    
-      app.append(" ").append(_constraints);
-
-      SqlContext.popContext(app, context);
+    /**
+     * Adds the given object as a column constraint.
+     * <p>
+     * {@code Object} -&gt; {@code SqlObject} constraint conversions handled by
+     * {@link Converter#toCustomConstraintClause}.
+     */
+    void addConstraint(Object obj) {
+        _constraints.addObject(Converter.toCustomConstraintClause(obj));
     }
 
-  }
-  
+    /**
+     * Sets the given value as the column default value.
+     * <p>
+     * {@code Object} -&gt; {@code SqlObject} value conversions handled by
+     * {@link Converter#toValueSqlObject}.
+     */
+    void setDefaultValue(Object val) {
+        _defaultValue = Converter.toValueSqlObject(val);
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        super.collectSchemaObjects(vContext);
+        _constraints.collectSchemaObjects(vContext);
+        if (_defaultValue != null) {
+            _defaultValue.collectSchemaObjects(vContext);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void appendTo(AppendableExt app) throws IOException {
+
+        app.append(_column.getColumnNameSQL()).append(" ").append(_typeName);
+
+        List<?> colQuals = _column.getTypeQualifiers();
+        if (colQuals != null) {
+
+            if (!colQuals.isEmpty()) {
+                app.append("(");
+                Iterator<?> iter = colQuals.iterator();
+                app.append(iter.next());
+                while (iter.hasNext()) {
+                    app.append(",").append(iter.next());
+                }
+                app.append(")");
+            }
+
+        } else {
+
+            // backwards compat code
+            Integer colFieldLength = _column.getTypeLength();
+            if (colFieldLength != null) {
+                app.append("(").append(colFieldLength).append(")");
+            }
+        }
+
+        if (_defaultValue != null) {
+            app.append(" DEFAULT ").append(_defaultValue);
+        }
+
+        if (!_constraints.isEmpty()) {
+
+            SqlContext context = SqlContext.pushContext(app);
+            // generate constraint clauses in their "column" format
+            context.setUseTableConstraints(false);
+
+            app.append(" ").append(_constraints);
+
+            SqlContext.popContext(app, context);
+        }
+
+    }
+
 }

@@ -16,8 +16,6 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.custom.sqlserver;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.Converter;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
@@ -26,48 +24,48 @@ import com.healthmarketscience.sqlbuilder.ValidationContext;
 import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
 import com.healthmarketscience.sqlbuilder.custom.HookType;
 
+import java.io.IOException;
+
 /**
  * Appends a SQLServer TOP clause like {@code " TOP <count> [PERCENT]"} for
  * use in {@link SelectQuery}s.
  *
- * @see SelectQuery#addCustomization(CustomSyntax)
- * 
  * @author James Ahlborn
+ * @see SelectQuery#addCustomization(CustomSyntax)
  */
-public class MssTopClause extends CustomSyntax
-{
-  private SqlObject _count;
-  private boolean _isPercent;
+public class MssTopClause extends CustomSyntax {
+    private SqlObject _count;
+    private boolean _isPercent;
 
-  public MssTopClause(Object count) {
-    this(count, false);
-  }
-
-  public MssTopClause(Object count, boolean isPercent) {
-    _count = Converter.toValueSqlObject(count);
-    _isPercent = isPercent;
-  }
-
-  public MssTopClause setIsPercent(boolean isPercent) {
-    _isPercent = isPercent;
-    return this;
-  }
-
-  @Override
-  public void apply(SelectQuery query) {
-    query.addCustomization(SelectQuery.Hook.DISTINCT, HookType.AFTER, this);
-  }
-
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append("TOP ").append(_count).append(" ");
-    if(_isPercent) {
-      app.append("PERCENT ");
+    public MssTopClause(Object count) {
+        this(count, false);
     }
-  }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    collectSchemaObjects(_count, vContext);
-  }
+    public MssTopClause(Object count, boolean isPercent) {
+        _count = Converter.toValueSqlObject(count);
+        _isPercent = isPercent;
+    }
+
+    public MssTopClause setIsPercent(boolean isPercent) {
+        _isPercent = isPercent;
+        return this;
+    }
+
+    @Override
+    public void apply(SelectQuery query) {
+        query.addCustomization(SelectQuery.Hook.DISTINCT, HookType.AFTER, this);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append("TOP ").append(_count).append(" ");
+        if (_isPercent) {
+            app.append("PERCENT ");
+        }
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        collectSchemaObjects(_count, vContext);
+    }
 }

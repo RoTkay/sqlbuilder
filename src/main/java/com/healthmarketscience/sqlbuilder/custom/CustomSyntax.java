@@ -32,30 +32,29 @@ import com.healthmarketscience.sqlbuilder.SqlObject;
  *
  * @author James Ahlborn
  */
-public abstract class CustomSyntax extends SqlObject
-{
+public abstract class CustomSyntax extends SqlObject {
 
-  /**
-   * Called by {@link SelectQuery#addCustomization(CustomSyntax)} to add this
-   * custom syntax to the appropriate location in the SelectQuery.
-   */
-  public void apply(SelectQuery query) {
-    throw new UnsupportedOperationException();
-  }
+    /**
+     * Called by {@link SelectQuery#addCustomization(CustomSyntax)} to add this
+     * custom syntax to the appropriate location in the SelectQuery.
+     */
+    public void apply(SelectQuery query) {
+        throw new UnsupportedOperationException();
+    }
 
-  /**
-   * Called by {@link CreateTableQuery#addCustomization(CustomSyntax)} to add this
-   * custom syntax to the appropriate location in the CreateTableQuery.
-   */
-  public void apply(CreateTableQuery query) {
-    throw new UnsupportedOperationException();
-  }
+    /**
+     * Called by {@link CreateTableQuery#addCustomization(CustomSyntax)} to add this
+     * custom syntax to the appropriate location in the CreateTableQuery.
+     */
+    public void apply(CreateTableQuery query) {
+        throw new UnsupportedOperationException();
+    }
 
-  /**
-   * Called by {@link CreateIndexQuery#addCustomization(CustomSyntax)} to add this
-   * custom syntax to the appropriate location in the CreateIndexQuery.
-   */
-  public void apply(CreateIndexQuery query) {
-    throw new UnsupportedOperationException();
-  }
+    /**
+     * Called by {@link CreateIndexQuery#addCustomization(CustomSyntax)} to add this
+     * custom syntax to the appropriate location in the CreateIndexQuery.
+     */
+    public void apply(CreateIndexQuery query) {
+        throw new UnsupportedOperationException();
+    }
 }

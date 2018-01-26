@@ -26,22 +26,22 @@ package com.healthmarketscience.sqlbuilder;
  */
 public interface Verifiable<ThisType extends Verifiable<ThisType>> {
 
-  /**
-   * Runs validation on this verifiable object.
-   * 
-   * @return a handle to this instance
-   */
-  public ThisType validate() throws ValidationException;
-  
-  /**
-   * Runs validation on this verifiable object using a previously collected
-   * ValidationContext.
-   * <p>
-   * In general, this method will only be called internally, not by users.
-   *
-   * @param vContext handle to the current, filled-in validation context
-   */
-  public void validate(ValidationContext vContext)
-    throws ValidationException;
-  
+    /**
+     * Runs validation on this verifiable object.
+     *
+     * @return a handle to this instance
+     */
+    public ThisType validate() throws ValidationException;
+
+    /**
+     * Runs validation on this verifiable object using a previously collected
+     * ValidationContext.
+     * <p>
+     * In general, this method will only be called internally, not by users.
+     *
+     * @param vContext handle to the current, filled-in validation context
+     */
+    public void validate(ValidationContext vContext)
+            throws ValidationException;
+
 }

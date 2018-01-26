@@ -26,7 +26,6 @@ package com.healthmarketscience.sqlbuilder.custom;
  *
  * @author James Ahlborn
  */
-public interface HookAnchor 
-{
+public interface HookAnchor {
 
 }

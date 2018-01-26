@@ -16,8 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
+
+import java.io.IOException;
 
 
 /**
@@ -25,40 +26,38 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public class NotCondition extends Condition
-{
-  private Condition _condition;
+public class NotCondition extends Condition {
+    private Condition _condition;
 
-  /**
-   * {@code Object} -&gt; {@code Condition} conversions handled by
-   * {@link Converter#toConditionObject(Object)}.
-   */
-  public NotCondition(Object condition) {
-    this(Converter.toConditionObject(condition));
-  }
-  
-  public NotCondition(Condition condition) {
-    _condition = condition;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return _condition.isEmpty();
-  }
-    
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    _condition.collectSchemaObjects(vContext);
-  }
-    
-  @Override
-  public void appendTo(AppendableExt app) throws IOException
-  {
-    if(!_condition.isEmpty()) {
-      openParen(app);
-      app.append("NOT ").append(_condition);
-      closeParen(app);
+    /**
+     * {@code Object} -&gt; {@code Condition} conversions handled by
+     * {@link Converter#toConditionObject(Object)}.
+     */
+    public NotCondition(Object condition) {
+        this(Converter.toConditionObject(condition));
     }
-  }
+
+    public NotCondition(Condition condition) {
+        _condition = condition;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return _condition.isEmpty();
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        _condition.collectSchemaObjects(vContext);
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        if (!_condition.isEmpty()) {
+            openParen(app);
+            app.append("NOT ").append(_condition);
+            closeParen(app);
+        }
+    }
 
 }

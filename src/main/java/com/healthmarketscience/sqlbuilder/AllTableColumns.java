@@ -16,10 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 
+import java.io.IOException;
 
 
 /**
@@ -28,25 +28,23 @@ import com.healthmarketscience.sqlbuilder.dbspec.Table;
  *
  * @author James Ahlborn
  */
-class AllTableColumns extends TableObject
-{
-  AllTableColumns(Table table) {
-    super(table);
-  }
+class AllTableColumns extends TableObject {
+    AllTableColumns(Table table) {
+        super(table);
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext)
-  {
-    super.collectSchemaObjects(vContext);
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        super.collectSchemaObjects(vContext);
 
-    // using this construct means we are essentially referencing *all* columns
-    // in this table, so update the columns list accordingly
-    vContext.getColumns().addAll(_table.getColumns());
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    ColumnObject.appendTableAliasPrefix(app, _table);
-    app.append("*");
-  }
+        // using this construct means we are essentially referencing *all* columns
+        // in this table, so update the columns list accordingly
+        vContext.getColumns().addAll(_table.getColumns());
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        ColumnObject.appendTableAliasPrefix(app, _table);
+        app.append("*");
+    }
 }

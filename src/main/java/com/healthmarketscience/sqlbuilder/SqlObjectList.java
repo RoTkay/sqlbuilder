@@ -16,13 +16,13 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
+import com.healthmarketscience.common.util.AppendableExt;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-
-import com.healthmarketscience.common.util.AppendableExt;
 
 
 /**
@@ -35,170 +35,185 @@ import com.healthmarketscience.common.util.AppendableExt;
  * @author James Ahlborn
  */
 public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
-  implements Iterable<ObjType>                                   
-{
-  /** the default delimiter used by a SqlObjectList */
-  public static final String DEFAULT_DELIMITER = ",";
+        implements Iterable<ObjType> {
+    /**
+     * the default delimiter used by a SqlObjectList
+     */
+    public static final String DEFAULT_DELIMITER = ",";
 
-  private final String _delimiter;
-  private final List<ObjType> _objects;
-    
-  public SqlObjectList() {
-    this(DEFAULT_DELIMITER, new LinkedList<ObjType>());
-  }
+    private final String _delimiter;
+    private final List<ObjType> _objects;
 
-  public SqlObjectList(String delimiter) {
-    this(delimiter, new LinkedList<ObjType>());
-  }
-
-  public SqlObjectList(String delimiter, List<ObjType> objects) {
-    _delimiter = delimiter;
-    _objects = objects;
-  }
-
-  /**
-   * Constructs and returns a new SqlObjectList, conveniently allows
-   * construction without respecifying generic param type.
-   * @return a new SqlObjectList with the default delimiter
-   */
-  public static <ObjType extends SqlObject> SqlObjectList<ObjType> create() {
-    return new SqlObjectList<ObjType>();
-  }
-  
-  /**
-   * Constructs and returns a new SqlObjectList, conveniently allows
-   * construction without respecifying generic param type.
-   * @param delimiter to use when appending the list
-   * @return a new SqlObjectList with the given delimiter
-   */
-  public static <ObjType extends SqlObject> SqlObjectList<ObjType> create(
-      String delimiter) {
-    return new SqlObjectList<ObjType>(delimiter);
-  }
-
-  public String getDelimiter() {
-    return _delimiter;
-  }
-
-  /**
-   * @return the number of objects in the list
-   */
-  public int size() { return _objects.size(); }
-
-  /**
-   * @return {@code true} if there are no objects in the list, {@code false}
-   *         otherwise.
-   */
-  public boolean isEmpty() { return _objects.isEmpty(); }
-
-  /**
-   * Removes all objects from the list.
-   */
-  public void clear() { _objects.clear(); }
-
-  /**
-   * Returns the object at the specified index.
-   */
-  public ObjType get(int index) { return _objects.get(index); }
-
-  /**
-   * @return a mutable Iterator over the objects in the list
-   */
-  public Iterator<ObjType> iterator() { return _objects.iterator(); }
-
-  /**
-   * @return a mutable ListIterator over the objects in the list
-   */
-  public ListIterator<ObjType> listIterator() {
-    return _objects.listIterator();
-  }
-  
-  /**
-   * Adds the given object to the list
-   * @param obj the object to be added
-   */
-  public SqlObjectList<ObjType> addObject(ObjType obj) {
-    _objects.add(obj);
-    return this;
-  }
-
-  /**
-   * Adds the given objects to the list
-   * @param objs the objects to be added, no-op if {@code null}
-   */
-  public SqlObjectList<ObjType> addObjects(ObjType... objs) {
-    if(objs == null) {
-      return this;
+    public SqlObjectList() {
+        this(DEFAULT_DELIMITER, new LinkedList<ObjType>());
     }
-    for(ObjType obj : objs) {
-      _objects.add(obj);
-    }
-    return this;
-  }
 
-  /**
-   * Adds the given objects to the list
-   * @param objs the objects to be added, no-op if {@code null}
-   */
-  public SqlObjectList<ObjType> addObjects(Iterable<? extends ObjType> objs) {
-    if(objs == null) {
-      return this;
+    public SqlObjectList(String delimiter) {
+        this(delimiter, new LinkedList<ObjType>());
     }
-    for(ObjType obj : objs) {
-      _objects.add(obj);
-    }
-    return this;
-  }
 
-  /**
-   * Adds the given objects to the list after converting each of them using
-   * the given converter.
-   * @param converter Converter which generates the actual objects to be added
-   *                  from the given objects
-   * @param objs the objects to be added, no-op if {@code null}
-   */
-  public <SrcType, DstType extends ObjType> SqlObjectList<ObjType> addObjects(
-      Converter<SrcType, DstType> converter, SrcType... objs)
-  {
-    if(objs == null) {
-      return this;
+    public SqlObjectList(String delimiter, List<ObjType> objects) {
+        _delimiter = delimiter;
+        _objects = objects;
     }
-    for(SrcType obj : objs) {
-      _objects.add(converter.convert(obj));
-    }
-    return this;
-  }
 
-  /**
-   * Adds the given objects to the list after converting each of them using
-   * the given converter.
-   * @param converter Converter which generates the actual objects to be added
-   *                  from the given objects
-   * @param objs the objects to be added, no-op if {@code null}
-   */
-  public <SrcType, DstType extends ObjType> SqlObjectList<ObjType> addObjects(
-      Converter<SrcType, DstType> converter,
-      Iterable<? extends SrcType> objs)
-  {
-    if(objs == null) {
-      return this;
+    /**
+     * Constructs and returns a new SqlObjectList, conveniently allows
+     * construction without respecifying generic param type.
+     *
+     * @return a new SqlObjectList with the default delimiter
+     */
+    public static <ObjType extends SqlObject> SqlObjectList<ObjType> create() {
+        return new SqlObjectList<ObjType>();
     }
-    for(SrcType obj : objs) {
-      _objects.add(converter.convert(obj));
-    }
-    return this;
-  }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    for(ObjType obj : _objects) {
-      obj.collectSchemaObjects(vContext);
+    /**
+     * Constructs and returns a new SqlObjectList, conveniently allows
+     * construction without respecifying generic param type.
+     *
+     * @param delimiter to use when appending the list
+     * @return a new SqlObjectList with the given delimiter
+     */
+    public static <ObjType extends SqlObject> SqlObjectList<ObjType> create(
+            String delimiter) {
+        return new SqlObjectList<ObjType>(delimiter);
     }
-  }
-    
-  @Override
-  public void appendTo(AppendableExt app) throws IOException
-  {
-    app.append(this, _delimiter);
-  }
+
+    public String getDelimiter() {
+        return _delimiter;
+    }
+
+    /**
+     * @return the number of objects in the list
+     */
+    public int size() {
+        return _objects.size();
+    }
+
+    /**
+     * @return {@code true} if there are no objects in the list, {@code false}
+     * otherwise.
+     */
+    public boolean isEmpty() {
+        return _objects.isEmpty();
+    }
+
+    /**
+     * Removes all objects from the list.
+     */
+    public void clear() {
+        _objects.clear();
+    }
+
+    /**
+     * Returns the object at the specified index.
+     */
+    public ObjType get(int index) {
+        return _objects.get(index);
+    }
+
+    /**
+     * @return a mutable Iterator over the objects in the list
+     */
+    public Iterator<ObjType> iterator() {
+        return _objects.iterator();
+    }
+
+    /**
+     * @return a mutable ListIterator over the objects in the list
+     */
+    public ListIterator<ObjType> listIterator() {
+        return _objects.listIterator();
+    }
+
+    /**
+     * Adds the given object to the list
+     *
+     * @param obj the object to be added
+     */
+    public SqlObjectList<ObjType> addObject(ObjType obj) {
+        _objects.add(obj);
+        return this;
+    }
+
+    /**
+     * Adds the given objects to the list
+     *
+     * @param objs the objects to be added, no-op if {@code null}
+     */
+    public SqlObjectList<ObjType> addObjects(ObjType... objs) {
+        if (objs == null) {
+            return this;
+        }
+        for (ObjType obj : objs) {
+            _objects.add(obj);
+        }
+        return this;
+    }
+
+    /**
+     * Adds the given objects to the list
+     *
+     * @param objs the objects to be added, no-op if {@code null}
+     */
+    public SqlObjectList<ObjType> addObjects(Iterable<? extends ObjType> objs) {
+        if (objs == null) {
+            return this;
+        }
+        for (ObjType obj : objs) {
+            _objects.add(obj);
+        }
+        return this;
+    }
+
+    /**
+     * Adds the given objects to the list after converting each of them using
+     * the given converter.
+     *
+     * @param converter Converter which generates the actual objects to be added
+     *                  from the given objects
+     * @param objs      the objects to be added, no-op if {@code null}
+     */
+    public <SrcType, DstType extends ObjType> SqlObjectList<ObjType> addObjects(
+            Converter<SrcType, DstType> converter, SrcType... objs) {
+        if (objs == null) {
+            return this;
+        }
+        for (SrcType obj : objs) {
+            _objects.add(converter.convert(obj));
+        }
+        return this;
+    }
+
+    /**
+     * Adds the given objects to the list after converting each of them using
+     * the given converter.
+     *
+     * @param converter Converter which generates the actual objects to be added
+     *                  from the given objects
+     * @param objs      the objects to be added, no-op if {@code null}
+     */
+    public <SrcType, DstType extends ObjType> SqlObjectList<ObjType> addObjects(
+            Converter<SrcType, DstType> converter,
+            Iterable<? extends SrcType> objs) {
+        if (objs == null) {
+            return this;
+        }
+        for (SrcType obj : objs) {
+            _objects.add(converter.convert(obj));
+        }
+        return this;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        for (ObjType obj : _objects) {
+            obj.collectSchemaObjects(vContext);
+        }
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(this, _delimiter);
+    }
 }

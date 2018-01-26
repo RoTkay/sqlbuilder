@@ -20,19 +20,18 @@ package com.healthmarketscience.sqlbuilder.custom.oracle;
  * The Oracle defined date parts for the
  * {@link com.healthmarketscience.sqlbuilder.ExtractExpression}.
  *
- * @see "SQL 2003"
  * @author James Ahlborn
+ * @see "SQL 2003"
  */
-public enum OraExtractDatePart 
-{
-  YEAR,
-  MONTH,
-  DAY,
-  HOUR,
-  MINUTE,
-  SECOND,
-  TIMEZONE_HOUR,
-  TIMEZONE_MINUTE,
-  TIMEZONE_REGION,
-  TIMEZONE_ABBR;
+public enum OraExtractDatePart {
+    YEAR,
+    MONTH,
+    DAY,
+    HOUR,
+    MINUTE,
+    SECOND,
+    TIMEZONE_HOUR,
+    TIMEZONE_MINUTE,
+    TIMEZONE_REGION,
+    TIMEZONE_ABBR;
 }

@@ -16,31 +16,35 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder.custom.oracle;
 
-import com.healthmarketscience.sqlbuilder.ValidationContext;
-import java.io.IOException;
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.SqlObject;
 import com.healthmarketscience.sqlbuilder.Expression;
+import com.healthmarketscience.sqlbuilder.SqlObject;
+import com.healthmarketscience.sqlbuilder.ValidationContext;
+
+import java.io.IOException;
 
 /**
  * Miscellaneous useful constructs for custom Oracle syntax.
  *
  * @author James Ahlborn
  */
-public class OraObjects 
-{
-  /** SqlObject which represents the Oracle {@code ROWNUM} pseudo-column. */
-  public static final SqlObject ROWNUM = new Expression()
-    {
-      @Override
-      public void appendTo(AppendableExt app) throws IOException {
-        app.append("ROWNUM");
-      }
-      @Override
-      protected void collectSchemaObjects(ValidationContext vContext) {}
+public class OraObjects {
+    /**
+     * SqlObject which represents the Oracle {@code ROWNUM} pseudo-column.
+     */
+    public static final SqlObject ROWNUM = new Expression() {
+        @Override
+        public void appendTo(AppendableExt app) throws IOException {
+            app.append("ROWNUM");
+        }
+
+        @Override
+        protected void collectSchemaObjects(ValidationContext vContext) {
+        }
     };
 
 
-  private OraObjects() {}
+    private OraObjects() {
+    }
 
 }

@@ -16,11 +16,10 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Function;
 
+import java.io.IOException;
 
 
 /**
@@ -28,20 +27,19 @@ import com.healthmarketscience.sqlbuilder.dbspec.Function;
  *
  * @author James Ahlborn
  */
-class FunctionObject extends SqlObject
-{
-  protected Function _function;
-    
-  FunctionObject(Function function) {
-    _function = function;
-  }
+class FunctionObject extends SqlObject {
+    protected Function _function;
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_function.getFunctionNameSQL());
-  }
+    FunctionObject(Function function) {
+        _function = function;
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_function.getFunctionNameSQL());
+    }
 }

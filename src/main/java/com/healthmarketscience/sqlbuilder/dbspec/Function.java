@@ -24,8 +24,10 @@ package com.healthmarketscience.sqlbuilder.dbspec;
  */
 public interface Function {
 
-  /** @return a string which represents an absolute (fully qualified)
-      reference to this function, suitable for sql statements */
-  public String getFunctionNameSQL();
+    /**
+     * @return a string which represents an absolute (fully qualified)
+     * reference to this function, suitable for sql statements
+     */
+    public String getFunctionNameSQL();
 
 }

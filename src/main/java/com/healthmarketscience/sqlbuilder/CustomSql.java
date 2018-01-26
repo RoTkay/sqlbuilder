@@ -16,10 +16,9 @@ limitations under the License.
 
 package com.healthmarketscience.sqlbuilder;
 
-import java.io.IOException;
-
 import com.healthmarketscience.common.util.AppendableExt;
 
+import java.io.IOException;
 
 
 /**
@@ -44,24 +43,22 @@ import com.healthmarketscience.common.util.AppendableExt;
  * SELECT foo,baz,buzz FROM table1 INNER JOIN table2 ON (table1.id = table2.id) ORDER BY foo
  * </pre>
  *
- * @see com.healthmarketscience.sqlbuilder.dbspec dbspec database model
- * 
  * @author James Ahlborn
+ * @see com.healthmarketscience.sqlbuilder.dbspec dbspec database model
  */
-public class CustomSql extends SqlObject
-{
-  private Object _obj;
+public class CustomSql extends SqlObject {
+    private Object _obj;
 
-  public CustomSql(Object obj) {
-    _obj = obj;
-  }
+    public CustomSql(Object obj) {
+        _obj = obj;
+    }
 
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-  }
-  
-  @Override
-  public void appendTo(AppendableExt app) throws IOException {
-    app.append(_obj);
-  }
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+    }
+
+    @Override
+    public void appendTo(AppendableExt app) throws IOException {
+        app.append(_obj);
+    }
 }
