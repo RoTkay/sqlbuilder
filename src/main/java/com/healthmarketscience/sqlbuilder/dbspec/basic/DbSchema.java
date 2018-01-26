@@ -34,16 +34,15 @@ public class DbSchema extends DbObject<DbObject<?>> {
     /**
      * tables currently created for this db spec
      */
-    private final List<DbTable> _tables = new ArrayList<DbTable>();
+    private final List<DbTable> _tables = new ArrayList<>();
     /**
      * indexes currently created for this db spec
      */
-    private final List<DbIndex> _indexes = new ArrayList<DbIndex>();
+    private final List<DbIndex> _indexes = new ArrayList<>();
     /**
      * function packages currently created for this db spec
      */
-    private final List<DbFunctionPackage> _functionPackages =
-            new ArrayList<DbFunctionPackage>();
+    private final List<DbFunctionPackage> _functionPackages = new ArrayList<>();
 
     public DbSchema(DbSpec spec, String name) {
         super(null, name);
@@ -121,8 +120,7 @@ public class DbSchema extends DbObject<DbObject<?>> {
      * @param colNames  names of the columns indexed in the given table
      * @return the freshly created index
      */
-    public DbIndex addIndex(String name, String tableName,
-                            String... colNames) {
+    public DbIndex addIndex(String name, String tableName, String... colNames) {
         DbIndex index = getSpec().createIndex(findTable(tableName), name, colNames);
         return addIndex(index);
     }
@@ -195,6 +193,4 @@ public class DbSchema extends DbObject<DbObject<?>> {
         _functionPackages.add(checkOwnership(functionPackage));
         return functionPackage;
     }
-
-
 }

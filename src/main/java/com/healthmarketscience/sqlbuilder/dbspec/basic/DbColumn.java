@@ -32,18 +32,15 @@ import java.util.Map;
  * @author James Ahlborn
  */
 @SuppressWarnings("deprecation")
-public class DbColumn extends DbObject<DbTable>
-        implements Column {
-    private static final Map<Integer, String> _typeNameMap =
-            new HashMap<Integer, String>();
+public class DbColumn extends DbObject<DbTable> implements Column {
+    private static final Map<Integer, String> _typeNameMap = new HashMap<>();
 
     static {
         try {
             // create a type -> type name map using the name of the constant field
             for (java.lang.reflect.Field typeField : Types.class.getFields()) {
                 int mods = typeField.getModifiers();
-                if (java.lang.reflect.Modifier.isPublic(mods) &&
-                        java.lang.reflect.Modifier.isStatic(mods) &&
+                if (java.lang.reflect.Modifier.isPublic(mods) && java.lang.reflect.Modifier.isStatic(mods) &&
                         (typeField.getType() == int.class)) {
                     Integer val = (Integer) typeField.get(null);
                     _typeNameMap.put(val, typeField.getName());
@@ -56,12 +53,11 @@ public class DbColumn extends DbObject<DbTable>
     }
 
     private final String _typeName;
-    private final List<Object> _qualifiers = new ArrayList<Object>();
-    private final List<DbConstraint> _constraints = new ArrayList<DbConstraint>();
+    private final List<Object> _qualifiers = new ArrayList<>();
+    private final List<DbConstraint> _constraints = new ArrayList<>();
     private Object _defaultValue;
 
-    public DbColumn(DbTable parent, String name,
-                    String typeName, Integer typeLength) {
+    public DbColumn(DbTable parent, String name, String typeName, Integer typeLength) {
         this(parent, name, typeName, (Object) typeLength);
     }
 

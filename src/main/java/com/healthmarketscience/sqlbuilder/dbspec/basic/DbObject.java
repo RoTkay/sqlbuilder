@@ -18,6 +18,7 @@ package com.healthmarketscience.sqlbuilder.dbspec.basic;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Base class for the simple implementations of the dbspec database objects.
@@ -102,11 +103,9 @@ public class DbObject<ParentType extends DbObject> {
      * @return the DbObject with the given name from the given collection, if
      * any, {@code null} otherwise.
      */
-    protected static <T extends DbObject<?>> T findObject(
-            Collection<T> objects, String name) {
+    protected static <T extends DbObject<?>> T findObject(Collection<T> objects, String name) {
         for (T obj : objects) {
-            if ((name == obj.getName()) ||
-                    ((name != null) && name.equals(obj.getName()))) {
+            if ((Objects.equals(name, obj.getName())) || ((name != null) && name.equals(obj.getName()))) {
                 return obj;
             }
         }

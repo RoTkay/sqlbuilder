@@ -26,6 +26,7 @@ import com.healthmarketscience.sqlbuilder.dbspec.Constraint;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Query which generates a CREATE TABLE statement.
@@ -54,7 +55,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery> {
          * Anchor for the end of the query, only supports {@link
          * HookType#BEFORE}
          */
-        TRAILER;
+        TRAILER
     }
 
     /**
@@ -70,7 +71,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery> {
 
         private final String _constraintClause;
 
-        private ColumnConstraint(String constraintClause) {
+        ColumnConstraint(String constraintClause) {
             _constraintClause = constraintClause;
         }
 
@@ -90,7 +91,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery> {
 
         private final String _typeClause;
 
-        private TableType(String typeClause) {
+        TableType(String typeClause) {
             _typeClause = typeClause;
         }
 
@@ -268,6 +269,10 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery> {
      */
     public CreateTableQuery addConstraints(Constraint... constraints) {
         return addCustomConstraints((Object[]) constraints);
+    }
+
+    public CreateTableQuery addConstraints(Collection<Constraint> constraints) {
+        return addCustomConstraints(constraints.toArray());
     }
 
     /**

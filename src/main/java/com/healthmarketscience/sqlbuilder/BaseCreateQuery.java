@@ -17,14 +17,17 @@ limitations under the License.
 package com.healthmarketscience.sqlbuilder;
 
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
+import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Query which generates a CREATE statement.
  *
  * @author James Ahlborn
  */
-public abstract class BaseCreateQuery<ThisType extends BaseCreateQuery<ThisType>>
-        extends Query<ThisType> {
+public abstract class BaseCreateQuery<ThisType extends BaseCreateQuery<ThisType>> extends Query<ThisType> {
 
     protected SqlObject _object;
     protected SqlObjectList<SqlObject> _columns = SqlObjectList.create();
@@ -56,6 +59,10 @@ public abstract class BaseCreateQuery<ThisType extends BaseCreateQuery<ThisType>
      */
     public ThisType addColumns(Column... columns) {
         return addCustomColumns((Object[]) columns);
+    }
+
+    public ThisType addColumns(Collection<DbColumn> columns) {
+        return addColumns(columns.toArray(new Column[columns.size()]));
     }
 
     @Override

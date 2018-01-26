@@ -56,12 +56,11 @@ public abstract class Query<ThisType extends Query<ThisType>>
      *
      * @param vContext handle to the current validation context
      */
-    protected void validateTables(ValidationContext vContext)
-            throws ValidationException {
+    protected void validateTables(ValidationContext vContext) throws ValidationException {
         Collection<Table> allTables = vContext.getTables();
         if (vContext.getParent() != null) {
             // tables could be defined in any outer contexts, so need to track back
-            allTables = new HashSet<Table>(allTables);
+            allTables = new HashSet<>(allTables);
             ValidationContext tmpVContext = vContext;
             while ((tmpVContext = tmpVContext.getParent()) != null) {
                 allTables.addAll(tmpVContext.getTables());

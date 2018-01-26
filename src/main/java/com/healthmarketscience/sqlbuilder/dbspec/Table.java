@@ -30,21 +30,21 @@ public interface Table {
      * @return the alias for this table which <b>should be</b> unique among all
      * tables in a given query
      */
-    public String getAlias();
+    String getAlias();
 
     /**
      * @return a string which represents an absolute (fully qualified)
      * reference to this table, suitable for sql statements
      */
-    public String getTableNameSQL();
+    String getTableNameSQL();
 
     /**
      * @return the columns in this table
      */
-    public List<? extends Column> getColumns();
+    List<? extends Column> getColumns();
 
     /**
      * @return any constraints for this table
      */
-    public List<? extends Constraint> getConstraints();
+    List<? extends Constraint> getConstraints();
 }

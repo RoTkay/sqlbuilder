@@ -23,6 +23,7 @@ import com.healthmarketscience.sqlbuilder.custom.HookType;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.Join;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
+import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
 
 import java.io.IOException;
 import java.util.*;
@@ -59,7 +60,7 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery> {
 
         private final String _joinClause;
 
-        private JoinType(String joinClause) {
+        JoinType(String joinClause) {
             _joinClause = joinClause;
         }
 
@@ -120,7 +121,7 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery> {
          * Anchor for the end of the query, only supports {@link
          * HookType#BEFORE}
          */
-        TRAILER;
+        TRAILER
     }
 
     private boolean _isDistinct;
@@ -233,6 +234,10 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery> {
      */
     public SelectQuery addColumns(Column... columns) {
         return addCustomColumns((Object[]) columns);
+    }
+
+    public SelectQuery addColumns(Collection<DbColumn> columns) {
+        return addCustomColumns(columns.toArray());
     }
 
     /**
