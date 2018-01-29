@@ -36,6 +36,7 @@ public class InsertMultipleValuesQuery extends InsertQuery {
 
     public InsertMultipleValuesQuery addColumns(Collection<DbColumn> columns, List<List<Object>> values) {
         queryValues = SqlObjectList.create();
+        _columns = SqlObjectList.create();
 
         _columns.addObjects(Converter.CUSTOM_COLUMN_TO_OBJ, columns.toArray());
 
