@@ -38,7 +38,7 @@ public class OrderObject extends SqlObject {
 
         private final String _dirStr;
 
-        private Dir(String dirStr) {
+        Dir(String dirStr) {
             _dirStr = dirStr;
         }
 
@@ -59,7 +59,7 @@ public class OrderObject extends SqlObject {
 
         private final String _dirStr;
 
-        private NullOrder(String dirStr) {
+        NullOrder(String dirStr) {
             _dirStr = dirStr;
         }
 

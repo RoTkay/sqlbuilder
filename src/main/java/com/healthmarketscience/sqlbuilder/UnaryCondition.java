@@ -37,13 +37,13 @@ public class UnaryCondition extends Condition {
          * Returns {@code true} if the operator comes before the value, {@code
          * false} otherwise.
          */
-        public boolean isPrefixOp();
+        boolean isPrefixOp();
 
         /**
          * Returns the Converter which handles the {@code Object} -&gt; {@code
          * SqlObject} conversion for the operation value.
          */
-        public Converter<Object, ? extends SqlObject> getConverter();
+        Converter<Object, ? extends SqlObject> getConverter();
     }
 
     /**
@@ -77,7 +77,7 @@ public class UnaryCondition extends Condition {
         private final boolean _isPrefixOp;
         private final Converter<Object, ? extends SqlObject> _converter;
 
-        private Op(String opStr, boolean isPrefixOp,
+        Op(String opStr, boolean isPrefixOp,
                    Converter<Object, ? extends SqlObject> converter) {
             _opStr = opStr;
             _isPrefixOp = isPrefixOp;

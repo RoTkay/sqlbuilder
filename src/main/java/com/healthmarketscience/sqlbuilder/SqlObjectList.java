@@ -24,7 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-
 /**
  * Maintains a list of SqlObjects.  Outputs each object separated by the
  * given delimiter (defaults to {@link #DEFAULT_DELIMITER}).
@@ -45,11 +44,11 @@ public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
     private final List<ObjType> _objects;
 
     public SqlObjectList() {
-        this(DEFAULT_DELIMITER, new LinkedList<ObjType>());
+        this(DEFAULT_DELIMITER, new LinkedList<>());
     }
 
     public SqlObjectList(String delimiter) {
-        this(delimiter, new LinkedList<ObjType>());
+        this(delimiter, new LinkedList<>());
     }
 
     public SqlObjectList(String delimiter, List<ObjType> objects) {
@@ -74,9 +73,8 @@ public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
      * @param delimiter to use when appending the list
      * @return a new SqlObjectList with the given delimiter
      */
-    public static <ObjType extends SqlObject> SqlObjectList<ObjType> create(
-            String delimiter) {
-        return new SqlObjectList<ObjType>(delimiter);
+    public static <ObjType extends SqlObject> SqlObjectList<ObjType> create(String delimiter) {
+        return new SqlObjectList<>(delimiter);
     }
 
     public String getDelimiter() {

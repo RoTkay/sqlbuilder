@@ -386,6 +386,11 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery> {
         return this;
     }
 
+    public SelectQuery addCustomOrderings(Collection<OrderObject> orderObjects) {
+        _ordering.addObjects(Converter.CUSTOM_COLUMN_TO_OBJ, orderObjects.toArray());
+        return this;
+    }
+
     /**
      * Adds the given column with the given direction to the "ORDER BY"
      * clause

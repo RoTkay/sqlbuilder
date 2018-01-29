@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class InsertMultipleValuesQuery extends InsertQuery {
-    private SqlObjectList<SqlObjectList<SqlObject>> queryValues = SqlObjectList.create();
+    private SqlObjectList<SqlObjectList<SqlObject>> queryValues;
     private final Converter<Object, SqlObject> valueToObjectConverter;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -35,6 +35,8 @@ public class InsertMultipleValuesQuery extends InsertQuery {
     }
 
     public InsertMultipleValuesQuery addColumns(Collection<DbColumn> columns, List<List<Object>> values) {
+        queryValues = SqlObjectList.create();
+
         _columns.addObjects(Converter.CUSTOM_COLUMN_TO_OBJ, columns.toArray());
 
         for (List<Object> row : values) {

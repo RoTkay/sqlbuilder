@@ -57,12 +57,16 @@ public class DbColumn extends DbObject<DbTable> implements Column {
     private final List<DbConstraint> _constraints = new ArrayList<>();
     private Object _defaultValue;
 
+    public DbColumn(String name) {
+        super(new DbTable(new DbSchema(new DbSpec(), null), null, null), name);
+        _typeName = "";
+    }
+
     public DbColumn(DbTable parent, String name, String typeName, Integer typeLength) {
         this(parent, name, typeName, (Object) typeLength);
     }
 
-    public DbColumn(DbTable parent, String name,
-                    String typeName, Object... typeQualifiers) {
+    public DbColumn(DbTable parent, String name, String typeName, Object... typeQualifiers) {
         super(parent, name);
         _typeName = typeName;
         if (typeQualifiers != null) {

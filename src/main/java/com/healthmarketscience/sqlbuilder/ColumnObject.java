@@ -58,8 +58,7 @@ class ColumnObject extends Expression {
      * column reference if the current SqlContext specifies table aliases should
      * be used (and the table has an alias), otherwise does nothing.
      */
-    static void appendTableAliasPrefix(AppendableExt app, Table table)
-            throws IOException {
+    static void appendTableAliasPrefix(AppendableExt app, Table table) throws IOException {
         if (SqlContext.getContext(app).getUseTableAliases()) {
             String alias = table.getAlias();
             if (TableDefObject.hasAlias(alias)) {

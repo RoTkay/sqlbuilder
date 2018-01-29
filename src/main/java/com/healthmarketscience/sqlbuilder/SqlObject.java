@@ -115,8 +115,7 @@ public abstract class SqlObject extends AppendeeObject {
      * @param obj      relevant sql object, may be {@code null}
      * @param vContext current ValidationContext
      */
-    public static void collectSchemaObjects(
-            SqlObject obj, ValidationContext vContext) {
+    public static void collectSchemaObjects(SqlObject obj, ValidationContext vContext) {
         if (obj != null) {
             obj.collectSchemaObjects(vContext);
         }

@@ -47,7 +47,7 @@ public class BinaryCondition extends Condition {
 
         private final String _opStr;
 
-        private Op(String opStr) {
+        Op(String opStr) {
             _opStr = opStr;
         }
 
