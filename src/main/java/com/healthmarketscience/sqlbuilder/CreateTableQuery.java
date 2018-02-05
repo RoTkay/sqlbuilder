@@ -352,8 +352,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery> {
     }
 
     @Override
-    protected void appendTo(AppendableExt app, SqlContext newContext)
-            throws IOException {
+    protected void appendTo(AppendableExt app, SqlContext newContext) throws IOException {
         newContext.setUseTableAliases(false);
 
         customAppendTo(app, Hook.HEADER);

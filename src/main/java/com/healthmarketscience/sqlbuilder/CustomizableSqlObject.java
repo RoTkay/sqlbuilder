@@ -83,7 +83,7 @@ public abstract class CustomizableSqlObject extends SqlObject {
      */
     protected AppendableExt customAppendTo(AppendableExt app, HookAnchor anchor)
             throws IOException {
-        List<Customization> custs = null;
+        List<Customization> custs;
         if ((_customizations != null) &&
                 ((custs = findCustomizations(anchor)) != null)) {
             appendCustomizations(app, custs, HookType.BEFORE);
@@ -96,11 +96,9 @@ public abstract class CustomizableSqlObject extends SqlObject {
      * Appends all customizations for the given anchor.
      */
     protected AppendableExt customAppendTo(AppendableExt app, HookAnchor anchor,
-                                           String str)
-            throws IOException {
-        List<Customization> custs = null;
-        if ((_customizations == null) ||
-                ((custs = findCustomizations(anchor)) == null)) {
+                                           String str) throws IOException {
+        List<Customization> custs;
+        if ((_customizations == null) || ((custs = findCustomizations(anchor)) == null)) {
             return app.append(str);
         }
 
@@ -122,7 +120,7 @@ public abstract class CustomizableSqlObject extends SqlObject {
         for (Customization cust : _customizations) {
             if (cust.forAnchor(anchor)) {
                 if (custs == null) {
-                    custs = new ArrayList<Customization>(2);
+                    custs = new ArrayList<>(2);
                 }
                 custs.add(cust);
             }

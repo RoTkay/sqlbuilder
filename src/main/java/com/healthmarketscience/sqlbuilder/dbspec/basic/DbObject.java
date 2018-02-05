@@ -33,7 +33,7 @@ public class DbObject<ParentType extends DbObject> {
     /**
      * the simple name of this db object
      */
-    private final String _name;
+    private String _name;
 
     protected DbObject(ParentType parent, String name) {
         _parent = parent;
@@ -125,6 +125,10 @@ public class DbObject<ParentType extends DbObject> {
         if (objArr != null) {
             objs.addAll(Arrays.asList(parent.checkOwnership(objArr)));
         }
+    }
+
+    public void setName(String name) {
+        this._name = name;
     }
 
     @Override
