@@ -67,4 +67,12 @@ public class InsertMultipleValuesQuery extends InsertQuery {
     @Override
     public void validate(ValidationContext vContext) throws ValidationException {
     }
+
+    public SqlObjectList<SqlObjectList<SqlObject>> getQueryValues() {
+        return queryValues;
+    }
+
+    public Converter<Object, SqlObject> getValueToObjectConverter() {
+        return valueToObjectConverter;
+    }
 }

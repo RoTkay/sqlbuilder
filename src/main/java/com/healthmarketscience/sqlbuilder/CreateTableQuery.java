@@ -395,4 +395,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery> {
         }
     }
 
+    public SqlObjectList<SqlObject> getConstraints() {
+        return _constraints;
+    }
 }

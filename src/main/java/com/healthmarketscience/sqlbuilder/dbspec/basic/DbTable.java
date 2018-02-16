@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author James Ahlborn
  */
-public class DbTable extends DbObject<DbSchema> implements Table {
+public class DbTable extends DbObject<DbSchema> implements Table, Cloneable {
 
     /**
      * alias to use for this table in queries (should be unique)
@@ -38,11 +38,11 @@ public class DbTable extends DbObject<DbSchema> implements Table {
     /**
      * columns currently created for this table
      */
-    private final List<DbColumn> _columns = new ArrayList<DbColumn>();
+    private final List<DbColumn> _columns = new ArrayList<>();
     /**
      * constraints currently defined for this table
      */
-    private final List<DbConstraint> _constraints = new ArrayList<DbConstraint>();
+    private final List<DbConstraint> _constraints = new ArrayList<>();
 
     public DbTable(DbSchema parent, String name) {
         this(parent, name, parent.getSpec().getNextAlias());
@@ -309,8 +309,20 @@ public class DbTable extends DbObject<DbSchema> implements Table {
     }
 
     @Override
-    public String toString() {
-        return super.toString() + "(" + getAlias() + ")";
+    public DbTable clone() {
+        try {
+            return (DbTable) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Couldn't clone table.");
+        }
     }
 
+    @Override
+    public String toString() {
+        if (getAlias() != null) {
+            return super.toString() + "(" + getAlias() + ")";
+        } else {
+            return super.toString();
+        }
+    }
 }
