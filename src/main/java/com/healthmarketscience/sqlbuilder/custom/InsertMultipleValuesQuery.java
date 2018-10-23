@@ -5,6 +5,7 @@ import com.healthmarketscience.common.util.AppendeeObject;
 import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.text.DateFormat;
