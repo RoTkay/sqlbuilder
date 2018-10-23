@@ -29,6 +29,10 @@ public class InsertMultipleValuesQuery extends InsertQuery {
                     return new ValueObject(dateFormat.format(src));
                 }
 
+                if (src instanceof String) {
+                    return new ValueObject(StringEscapeUtils.escapeSql(String.valueOf(src)));
+                }
+                
                 return toValueSqlObject(src);
             }
         };
