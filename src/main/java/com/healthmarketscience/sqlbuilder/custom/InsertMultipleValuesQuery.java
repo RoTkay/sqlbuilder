@@ -5,6 +5,7 @@ import com.healthmarketscience.common.util.AppendeeObject;
 import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -27,6 +28,10 @@ public class InsertMultipleValuesQuery extends InsertQuery {
             public SqlObject convert(Object src) {
                 if (src instanceof Date) {
                     return new ValueObject(dateFormat.format(src));
+                }
+
+                if (src instanceof String) {
+                    return new ValueObject(StringEscapeUtils.escapeSql(String.valueOf(src)));
                 }
 
                 return toValueSqlObject(src);
