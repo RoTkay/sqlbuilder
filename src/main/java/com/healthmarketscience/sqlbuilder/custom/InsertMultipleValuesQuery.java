@@ -31,7 +31,7 @@ public class InsertMultipleValuesQuery extends InsertQuery {
                 }
 
                 if (src instanceof String) {
-                    return new ValueObject(StringEscapeUtils.escapeSql(String.valueOf(src)));
+                    return !((String) src).isEmpty() ? new ValueObject(StringEscapeUtils.escapeSql(String.valueOf(src))) : SqlObject.NULL_VALUE;
                 }
 
                 return toValueSqlObject(src);
