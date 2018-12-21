@@ -31,12 +31,16 @@ public class InsertMultipleValuesQuery extends InsertQuery {
                 }
 
                 if (src instanceof String) {
-                    return !((String) src).isEmpty() ? new ValueObject(StringEscapeUtils.escapeSql(String.valueOf(src))) : SqlObject.NULL_VALUE;
+                    return !((String) src).isEmpty() ? new ValueObject(validateInput(String.valueOf(src))) : SqlObject.NULL_VALUE;
                 }
 
                 return toValueSqlObject(src);
             }
         };
+    }
+
+    private String validateInput(String input) {
+        return StringEscapeUtils.escapeJava(StringEscapeUtils.escapeSql(input));
     }
 
     public InsertMultipleValuesQuery addColumns(Collection<DbColumn> columns, List<List<Object>> values) {
