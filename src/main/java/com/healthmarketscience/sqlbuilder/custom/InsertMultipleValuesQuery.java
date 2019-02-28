@@ -20,6 +20,7 @@ public class InsertMultipleValuesQuery extends InsertQuery {
     private SqlObjectList<SqlObjectList<SqlObject>> queryValues;
     private final Converter<Object, SqlObject> valueToObjectConverter;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private boolean needEscapeQuotes;
 
     public InsertMultipleValuesQuery(Table table) {
         super(table);
@@ -40,7 +41,9 @@ public class InsertMultipleValuesQuery extends InsertQuery {
     }
 
     private String validateInput(String input) {
-        return StringEscapeUtils.escapeJava(StringEscapeUtils.escapeSql(input));
+        String val = StringEscapeUtils.escapeSql(input);
+
+        return needEscapeQuotes ? StringEscapeUtils.escapeJava(val) : val;
     }
 
     public InsertMultipleValuesQuery addColumns(Collection<DbColumn> columns, List<List<Object>> values) {
@@ -83,5 +86,9 @@ public class InsertMultipleValuesQuery extends InsertQuery {
 
     public Converter<Object, SqlObject> getValueToObjectConverter() {
         return valueToObjectConverter;
+    }
+
+    public void setNeedEscapeQuotes(boolean needEscapeQuotes) {
+        this.needEscapeQuotes = needEscapeQuotes;
     }
 }
