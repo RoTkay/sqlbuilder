@@ -20,10 +20,13 @@ import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
 import com.healthmarketscience.sqlbuilder.custom.HookAnchor;
 import com.healthmarketscience.sqlbuilder.custom.HookType;
 import com.healthmarketscience.sqlbuilder.custom.oracle.OraTableSpaceClause;
+import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.Index;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Query which generates a CREATE INDEX statement.
@@ -34,6 +37,8 @@ import java.io.IOException;
  * @author Tim McCune
  */
 public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
+    private static final int IND_LEN = 50;
+
     /**
      * The HookAnchors supported for CREATE INDEX queries.  See {@link com.healthmarketscience.sqlbuilder.custom}
      * for more details on custom SQL syntax.
@@ -75,12 +80,18 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
 
     private IndexType _indexType;
     protected SqlObject _table;
+    private boolean addIndexLen;
 
     public CreateIndexQuery(Index index) {
         this((Object) index.getTable(), (Object) index);
 
         // add all the columns for this table
         _columns.addObjects(Converter.COLUMN_TO_OBJ, index.getColumns());
+    }
+
+    public CreateIndexQuery(Index index, boolean addIndexLen) {
+        this(index);
+        this.addIndexLen = addIndexLen;
     }
 
     public CreateIndexQuery(Table table, String indexName) {
@@ -208,11 +219,34 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
         if (_indexType != null) {
             app.append(_indexType);
         }
-        customAppendTo(app, Hook.INDEX, "INDEX ")
-                .append(_object).append(" ON ").append(_table)
-                .append(" (").append(_columns).append(")");
+        AppendableExt indexBuilder = customAppendTo(app, Hook.INDEX, "INDEX ")
+                .append(_object).append(" ON ").append(_table);
+
+        if (!addIndexLen) {
+            indexBuilder.append(" (").append(_columns).append(")");
+        } else {
+            indexBuilder.append(" ").append(generateIndexColumnsVal());
+        }
 
         customAppendTo(app, Hook.TRAILER);
+    }
+
+    private String generateIndexColumnsVal() {
+        return StreamSupport.stream(_columns.spliterator(), false)
+                .map(obj -> {
+                    if (obj instanceof ColumnObject) {
+                        Column col = ((ColumnObject) obj)._column;
+
+                        if (col.getTypeNameSQL().equalsIgnoreCase("VARCHAR")) {
+                            return col.getColumnNameSQL() + String.format("(%d)", IND_LEN);
+                        }
+
+                        return col.getColumnNameSQL();
+                    }
+
+                    throw new RuntimeException("Couldn't parse columns.");
+                })
+                .collect(Collectors.joining(",", "(", ")"));
     }
 
 }
