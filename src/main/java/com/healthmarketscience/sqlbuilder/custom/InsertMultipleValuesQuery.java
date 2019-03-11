@@ -6,8 +6,11 @@ import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.UnhandledException;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -43,7 +46,7 @@ public class InsertMultipleValuesQuery extends InsertQuery {
     private String validateInput(String input) {
         String val = StringEscapeUtils.escapeSql(input);
 
-        return needEscapeQuotes ? StringEscapeUtils.escapeJava(val) : val;
+        return needEscapeQuotes ? escapeJavaStyleString(val, false, false) : val;
     }
 
     public InsertMultipleValuesQuery addColumns(Collection<DbColumn> columns, List<List<Object>> values) {
@@ -90,5 +93,88 @@ public class InsertMultipleValuesQuery extends InsertQuery {
 
     public void setNeedEscapeQuotes(boolean needEscapeQuotes) {
         this.needEscapeQuotes = needEscapeQuotes;
+    }
+
+    private static String escapeJavaStyleString(String str, boolean escapeSingleQuotes, boolean escapeForwardSlash) {
+        if (str == null) {
+            return null;
+        }
+        try {
+            StringWriter writer = new StringWriter(str.length() * 2);
+            escapeJavaStyleString(writer, str, escapeSingleQuotes, escapeForwardSlash);
+            return writer.toString();
+        } catch (IOException ioe) {
+            // this should never ever happen while writing to a StringWriter
+            throw new UnhandledException(ioe);
+        }
+    }
+
+    private static void escapeJavaStyleString(Writer out, String str, boolean escapeSingleQuote,
+                                              boolean escapeForwardSlash) throws IOException {
+        if (out == null) {
+            throw new IllegalArgumentException("The Writer must not be null");
+        }
+        if (str == null) {
+            return;
+        }
+        int sz;
+        sz = str.length();
+        for (int i = 0; i < sz; i++) {
+            char ch = str.charAt(i);
+
+            if (ch < 32) {
+                switch (ch) {
+                    case '\b':
+                        out.write('\\');
+                        out.write('b');
+                        break;
+                    case '\n':
+                        out.write('\\');
+                        out.write('n');
+                        break;
+                    case '\t':
+                        out.write('\\');
+                        out.write('t');
+                        break;
+                    case '\f':
+                        out.write('\\');
+                        out.write('f');
+                        break;
+                    case '\r':
+                        out.write('\\');
+                        out.write('r');
+                        break;
+                    default:
+                        out.write(ch);
+                        break;
+                }
+            } else {
+                switch (ch) {
+                    case '\'':
+                        if (escapeSingleQuote) {
+                            out.write('\\');
+                        }
+                        out.write('\'');
+                        break;
+                    case '"':
+                        out.write('\\');
+                        out.write('"');
+                        break;
+                    case '\\':
+                        out.write('\\');
+                        out.write('\\');
+                        break;
+                    case '/':
+                        if (escapeForwardSlash) {
+                            out.write('\\');
+                        }
+                        out.write('/');
+                        break;
+                    default:
+                        out.write(ch);
+                        break;
+                }
+            }
+        }
     }
 }
