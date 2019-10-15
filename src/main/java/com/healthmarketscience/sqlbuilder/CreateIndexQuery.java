@@ -37,7 +37,6 @@ import java.util.stream.StreamSupport;
  * @author Tim McCune
  */
 public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
-    private static final int IND_LEN = 50;
 
     /**
      * The HookAnchors supported for CREATE INDEX queries.  See {@link com.healthmarketscience.sqlbuilder.custom}
@@ -80,7 +79,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
 
     private IndexType _indexType;
     protected SqlObject _table;
-    private boolean addIndexLen;
+    private Integer indexLen;
 
     public CreateIndexQuery(Index index) {
         this((Object) index.getTable(), (Object) index);
@@ -89,9 +88,9 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
         _columns.addObjects(Converter.COLUMN_TO_OBJ, index.getColumns());
     }
 
-    public CreateIndexQuery(Index index, boolean addIndexLen) {
+    public CreateIndexQuery(Index index, Integer indexLen) {
         this(index);
-        this.addIndexLen = addIndexLen;
+        this.indexLen = indexLen;
     }
 
     public CreateIndexQuery(Table table, String indexName) {
@@ -222,7 +221,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
         AppendableExt indexBuilder = customAppendTo(app, Hook.INDEX, "INDEX ")
                 .append(_object).append(" ON ").append(_table);
 
-        if (!addIndexLen) {
+        if (indexLen == null) {
             indexBuilder.append(" (").append(_columns).append(")");
         } else {
             indexBuilder.append(" ").append(generateIndexColumnsVal());
@@ -238,7 +237,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
                         Column col = ((ColumnObject) obj)._column;
 
                         if (col.getTypeNameSQL().equalsIgnoreCase("VARCHAR")) {
-                            return col.getColumnNameSQL() + String.format("(%d)", IND_LEN);
+                            return col.getColumnNameSQL() + String.format("(%d)", indexLen);
                         }
 
                         return col.getColumnNameSQL();
